@@ -8,7 +8,8 @@ import React, {
   Text,
   ListView,
   View,
-  ActivityIndicatorIOS
+  ActivityIndicatorIOS,
+  TouchableHighlight
 } from 'react-native';
 
 
@@ -49,11 +50,20 @@ class Dashboard extends Component {
   //     .done();
   // }
 
+  pressRow(rowData){
+    console.log(rowData);
+  }
+
   renderRow(rowData){
     return (
+      <TouchableHighlight
+        onPress={()=> this.pressRow(rowData)}
+        underlayColor='#ddd'
+      >
       <View style={styles.league}>
         <Text>{rowData}</Text>
       </View>
+      </TouchableHighlight>
     );
 
   }
