@@ -33,6 +33,7 @@ class Dashboard extends Component {
     this.fetchLeagues();
   }
 
+  // add in parameter for userID to pass into body:userID as a url param
   fetchLeagues(){
 
     var url = 'https://portfolioio.herokuapp.com/api/leagues/userleague';

@@ -36,6 +36,7 @@ class Quote extends Component {
       searchString: null,
       isLoading: false,
       gotResult: false
+      name: null
     };
 
     //this.authorize = true;
@@ -51,6 +52,8 @@ class Quote extends Component {
 
     //var stock = 'goog';
     var url = 'https://portfolioio.herokuapp.com/api/stocks/' + query;
+
+
 
     fetch(url)
       .then((response) => response.json())
@@ -99,7 +102,6 @@ class Quote extends Component {
     //   component: LeagueView,
     //   passProps: {league: leagueId}
     // });
-
   }
 
 
@@ -133,7 +135,7 @@ class Quote extends Component {
         </View>
 
           {spinner}
-
+        <View>
           <Text style={styles.stockName}>{this.state.name}</Text>
           <Text style={styles.stockSymbol}>{this.state.symbol}</Text>
           <Text style={styles.stockAsk}>Ask Price: {this.state.ask}</Text>
@@ -141,13 +143,12 @@ class Quote extends Component {
           <Text style={styles.stockAsk}>Percent Change: {this.state.percentChange}</Text>
 
 
-            placeholder='symbol or company name'/>
           <TouchableHighlight style={styles.button}
               underlayColor='#99d9f4'>
-            <Text style={styles.buttonText}>Go</Text>
+            <Text style={styles.buttonText}>Search</Text>
           </TouchableHighlight>
 
-
+        </View>
       </View>
     );
   }
@@ -215,7 +216,6 @@ let styles = StyleSheet.create({
     fontSize: 16,
     flex: 1,
     padding: 2
-
   }
 });
 
