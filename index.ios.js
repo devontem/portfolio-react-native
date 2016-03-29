@@ -13,12 +13,14 @@ import React, {
 } from 'react-native';
 
 var Login = require('./login');
+var UserStocks = require('./userstocks');
+var MakeTrade = require('./maketrade')
 
 class portfolio extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Login />
+        <MakeTrade />
       </View>
     );
   }
