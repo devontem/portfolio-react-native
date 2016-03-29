@@ -58,7 +58,6 @@ class Quote extends Component {
     fetch(url)
       .then((response) => response.json())
       .then((stock)=> {
-        console.log('THIS IS THE STOCK DATA!!!!!', stock)
         this.setState({
           change: stock.Change,
           percentChange: stock.PercentChange,
@@ -134,21 +133,15 @@ class Quote extends Component {
           </TouchableHighlight>
         </View>
 
+
           {spinner}
-        <View>
+
           <Text style={styles.stockName}>{this.state.name}</Text>
           <Text style={styles.stockSymbol}>{this.state.symbol}</Text>
           <Text style={styles.stockAsk}>Ask Price: {this.state.ask}</Text>
           <Text style={styles.stockAsk}>Price Change: {this.state.change}</Text>
           <Text style={styles.stockAsk}>Percent Change: {this.state.percentChange}</Text>
 
-
-          <TouchableHighlight style={styles.button}
-              underlayColor='#99d9f4'>
-            <Text style={styles.buttonText}>Search</Text>
-          </TouchableHighlight>
-
-        </View>
       </View>
     );
   }
