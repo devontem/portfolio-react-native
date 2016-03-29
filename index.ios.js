@@ -93,8 +93,8 @@ class portfolio extends Component {
     // );
 
 
-    return (
-      <View style = {styles.container}>
+    // return (
+    //   <View style = {styles.container}>
 
     // return (
     //   <View style = {styles.container}>
