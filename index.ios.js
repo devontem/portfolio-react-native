@@ -10,6 +10,8 @@ import React, {
 
 
 
+
+
 var Login = require('./login');
 
 var UserStocks = require('./userstocks');
@@ -18,6 +20,13 @@ var AuthService = require('./AuthService');
 var AppContainer = require('./AppContainer');
 var Dashboard = require('./dashboard');
 var Quote = require('./quote');
+
+
+
+//var Login = require('./login');
+var Leaderboard = require('./watchlist');
+
+
 
 class portfolio extends Component {
 
@@ -47,6 +56,8 @@ class portfolio extends Component {
   }
 
   render() {
+
+
       if(this.state.checkingAuth){
         return (
           <View style={styles.container}>
@@ -66,6 +77,21 @@ class portfolio extends Component {
           <Login onLogin={this.onLogin.bind(this)} getuserinfo={this.getuserinfo.bind(this)} />
         )
       }
+
+
+
+    // return (
+    //   <View style = {styles.container}>
+        
+    //     <Leaderboard />
+    //   </View>
+    //   // <View style = {styles.container}>
+      
+    //   // </View>
+    // );
+
+
+
   }
 
 }
