@@ -80,6 +80,7 @@ class portfolio extends Component {
 
 
 
+
     // return (
     //   <View style = {styles.container}>
         
@@ -89,6 +90,21 @@ class portfolio extends Component {
       
     //   // </View>
     // );
+
+
+    return (
+      <View style = {styles.container}>
+
+    // return (
+    //   <View style = {styles.container}>
+
+        
+    //     <Leaderboard />
+    //   </View>
+      // <View style = {styles.container}>
+      
+      // </View>
+    //);
 
 
 
