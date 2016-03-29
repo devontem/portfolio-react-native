@@ -16,9 +16,10 @@ import React, {
 // var League = require('./league');
 var Quote = require('./quote');
 var UserStocks = require('./userstocks')
+var MakeTrade = require('./maketrade')
 
 //initial route setup
-class Dashboard extends Component {
+class Trade extends Component {
   constructor(props) {
     super(props)
   }
@@ -28,15 +29,15 @@ class Dashboard extends Component {
       <React.NavigatorIOS
         style={styles.wrapper}
         initialRoute={{
-          title: 'Property Finder',
-          component: DashboardInner,
+          title: 'Trades',
+          component: TradeInner,
           passProps: {info: this.props.info}
         }} />
     )
   }
 }
 
-class DashboardInner extends Component {
+class TradeInner extends Component {
   constructor(props){
     super(props);
 
@@ -92,7 +93,7 @@ class DashboardInner extends Component {
 
     this.props.navigator.push({
       title: rowData.leaguename,
-      component: UserStocks,
+      component: MakeTrade,
       passProps: {leagueId: rowData.leagueId, userId: this.props.info.userId, username: this.props.info.username}
     });
   }
@@ -150,4 +151,4 @@ let styles = StyleSheet.create({
   }
 });
 
-module.exports = Dashboard;
+module.exports = Trade;

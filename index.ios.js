@@ -11,11 +11,13 @@ import React, {
 
 
 var Login = require('./login');
+
+var UserStocks = require('./userstocks');
+var MakeTrade = require('./maketrade')
 var AuthService = require('./AuthService');
 var AppContainer = require('./AppContainer');
 var Dashboard = require('./dashboard');
 var Quote = require('./quote');
-
 
 class portfolio extends Component {
 
@@ -45,9 +47,6 @@ class portfolio extends Component {
   }
 
   render() {
-
-
-
       if(this.state.checkingAuth){
         return (
           <View style={styles.container}>
@@ -67,7 +66,6 @@ class portfolio extends Component {
           <Login onLogin={this.onLogin.bind(this)} getuserinfo={this.getuserinfo.bind(this)} />
         )
       }
-
   }
 
 }
