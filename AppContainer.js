@@ -31,11 +31,13 @@ class AppContainer extends Component{
         Authinfo[val[i][0]] = val[i][1];
       }
 
-      console.log(Authinfo);
+      //console.log(Authinfo);
       //Authinfo.username is username
       //Authinfo.userId is userId
       //Authinfo.token is token
     })
+
+    console.log(this.props.info);
 
     this.state = {
       selectedTab: 'home',
@@ -56,7 +58,7 @@ class AppContainer extends Component{
           icon={{uri: homeicon, scale: 4}}
           onPress={()=> this.setState({selectedTab: 'home'})}
         >
-          <Text style={styles.welcome}>home</Text>
+          <Text style={styles.welcome}>home{this.props.info}</Text>
         </TabBarIOS.Item> 
         <TabBarIOS.Item
           title="watchlist"

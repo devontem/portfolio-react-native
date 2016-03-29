@@ -35,6 +35,10 @@ class portfolio extends Component {
     this.setState({isLoggedIn: true});
   }
 
+  getuserinfo(user) {
+    this.setState({userinfo: user});
+  }
+
   render() {
       if(this.state.checkingAuth){
         return (
@@ -48,11 +52,11 @@ class portfolio extends Component {
       }
       if(this.state.isLoggedIn){
         return (
-          <AppContainer />
+          <AppContainer info={this.state.userinfo} />
         )
       }else{
         return (
-          <Login onLogin={this.onLogin.bind(this)} />
+          <Login onLogin={this.onLogin.bind(this)} getuserinfo={this.getuserinfo.bind(this)} />
         )
       }
   }

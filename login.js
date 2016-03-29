@@ -84,6 +84,7 @@ class Login extends Component {
         showProgress: false
       },results));
       if(results.success && this.props.onLogin){
+        this.props.getuserinfo(results);
         this.props.onLogin();
       }
     });
