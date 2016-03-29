@@ -24,7 +24,7 @@ var Quote = require('./quote');
 
 
 //var Login = require('./login');
-var Leaderboard = require('./watchlist');
+var Watchlist = require('./watchlist');
 
 
 
@@ -81,6 +81,7 @@ class portfolio extends Component {
 
 
 
+
     // return (
     //   <View style = {styles.container}>
         
@@ -94,6 +95,10 @@ class portfolio extends Component {
 
     return (
       <View style = {styles.container}>
+
+    // return (
+    //   <View style = {styles.container}>
+
 
     // return (
     //   <View style = {styles.container}>
