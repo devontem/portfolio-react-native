@@ -32,7 +32,8 @@ var styles = StyleSheet.create({
 	},
 	table: {
 		borderWidth: 2,
-		borderColor: '#ddd'
+		borderColor: '#ddd',
+		height: 600
 	},
 	rowText: {
 		flex: 1,
@@ -69,12 +70,14 @@ class UserStocks extends Component {
 		this.state = {
 			stocks: dataSource.cloneWithRows([]),
 			isLoading: true,
-			leagueId: 18,
-			userId: 17
+			leagueId: this.props.leagueId,
+			userId: this.props.userId
 		}
 
+		console.log('userstocks props', this.props.leagueId, this.props.userId)
+
 		// Getting the User's stocks initially
-		this.updateUserStocks(this.state.leagueId, this.state.userId)
+		this.getUserStocks(this.state.leagueId, this.state.userId)
 	};
 
 	// Updates the user's stocks to current market price, and resets them

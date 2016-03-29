@@ -15,8 +15,27 @@ import React, {
 
 // var League = require('./league');
 var Quote = require('./quote');
+var UserStocks = require('./userstocks')
 
 class Dashboard extends Component {
+  constructor(props) {
+    super(props)
+  }
+
+  render(){
+    return (
+      <React.NavigatorIOS
+        style={styles.wrapper}
+        initialRoute={{
+          title: 'Property Finder',
+          component: DashboardInner,
+          passProps: {info: this.props.info}
+        }} />
+    )
+  }
+}
+
+class DashboardInner extends Component {
   constructor(props){
     super(props);
 
@@ -24,7 +43,7 @@ class Dashboard extends Component {
 
     var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
 
-    console.log(this.props.info,'******')
+    // console.log(this.props.info,'******')
 
     this.state = {
       dataSource: ds.cloneWithRows([''])
@@ -54,6 +73,7 @@ class Dashboard extends Component {
       .then((response) => response.json())
       .then((data)=> {
         console.log('THIS IS THE DATA!!!!!', data)
+        console.log('these are the props', this.props.info)
         var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
         this.setState({
           dataSource: ds.cloneWithRows(data),
@@ -69,11 +89,11 @@ class Dashboard extends Component {
     console.log('LEAGUE ID:', rowData.leagueId)
     // this.setState({ isLoading: false });
 
-    // this.props.navigator.push({
-    //   title: 'League',
-    //   component: Quote,
-    //   passProps: {league: rowData.leagueId}
-    // });
+    this.props.navigator.push({
+      title: rowData.leaguename,
+      component: UserStocks,
+      passProps: {leagueId: rowData.leagueId, userId: this.props.info.userId, username: this.props.info.username}
+    });
   }
 
   renderRow(rowData){
@@ -115,6 +135,9 @@ let styles = StyleSheet.create({
   leaguePageHeader: {
     color: 'green',
     fontSize: 25
+  },
+  wrapper: {
+    flex: 1
   },
   league: {
     flex: 1,
