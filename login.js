@@ -19,35 +19,51 @@ class Login extends Component {
     super(props);
 
     this.state = {
-      showProgress: false,
+      showProgress: false
     }
-
-    this.authorize = false;
-
   }
 
-
-
   render() {
+    var errorCtrl = <View />;
+
+    if(!this.state.success && this.state.nouser){
+      errorCtrl = <Text style = {styles.error}>
+        No user found!
+        </Text>
+    }
+
+    if(!this.state.success && this.state.badpassword){
+      errorCtrl = <Text style = {styles.error}>
+        That username and password combination did not work
+        </Text>
+    }
+
+    if(!this.state.success && this.state.unknownError){
+      errorCtrl = <Text style={styles.error}>
+        We experienced an unexpected issue
+        </Text>
+    }
+
     return (
       <View style={styles.container}>
         <Image style={styles.logo}
-         source={require('./money.png')}/>
+         source={require('./moneylogo.png')}/>
          <Text style={styles.heading}>Portfol.IO</Text>
          <TextInput onChangeText={(text)=> this.setState({username: text})}
                     style={styles.input}
                     placeholder="Username"></TextInput>
          <TextInput onChangeText={(text)=> this.setState({password: text})}
                     style={styles.input}
-                    secureTextEntry="true"
+                    secureTextEntry = {true}
                     placeholder="Password"></TextInput>
          <TouchableHighlight 
                     onPress={this.onLoginPressed.bind(this)}
                     style={styles.button}>
             <Text style={styles.buttonText}>Log in</Text>
-            
          </TouchableHighlight>
-         <Text> {this.authorize ? 'LOGGED IN':'Not logged in'}</Text>
+
+         {errorCtrl}
+
          <ActivityIndicatorIOS
           animating={this.state.showProgress}
           size="large" />
@@ -56,35 +72,22 @@ class Login extends Component {
     }
 
   onLoginPressed(){
-    console.log('Attempting to log in with username' + this.state.username);
+
     this.setState({showProgress: true});
 
-    var b = new buffer.Buffer(this.state.username + ':' + this.state.password);
-    var encodedAuth = b.toString('base64');
-//https://api.github.com/user
-    var data = {
-               email: this.state.username,
-               password: this.state.password,
-                }
-
-    fetch('https://portfolioio.herokuapp.com/api/users/signin', {
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-        },
-        method: 'POST',
-        body: JSON.stringify(data)
-      })
-      .then((response)=>{
-        console.log(response.json(),'******');
-        this.authorize = true;
-        return response.json();
-      })
-      .then((results)=>{
-        console.log(results);
-        this.setState({showProgress: false});
-      })
-  }
+    var authService = require('./AuthService');
+    authService.login({
+      email: this.state.username,
+      password: this.state.password
+    }, (results)=>{
+      this.setState(Object.assign({
+        showProgress: false
+      },results));
+      if(results.success && this.props.onLogin){
+        this.props.onLogin();
+      }
+    });
+  }  
 }
 
 const styles = StyleSheet.create({
@@ -125,6 +128,10 @@ const styles = StyleSheet.create({
   },
   loader:{
     marginTop:20
+  },
+  error:{
+    color: 'red',
+    paddingTop: 10
   }
 });
 
