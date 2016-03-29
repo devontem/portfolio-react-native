@@ -9,11 +9,12 @@ import React, {
   ListView,
   View,
   ActivityIndicatorIOS,
-  TouchableHighlight
+  TouchableHighlight,
+
 } from 'react-native';
 
 // var League = require('./league');
-
+var Quote = require('./quote');
 
 class Dashboard extends Component {
   constructor(props){
@@ -63,13 +64,13 @@ class Dashboard extends Component {
 
   pressRow(rowData){
     console.log(rowData);
-    // add rest of code to access each league
-    // var league = rowData;
+    console.log('LEAGUE ID:', rowData.leagueId)
+    // this.setState({ isLoading: false });
 
     // this.props.navigator.push({
-    //   title: "League",
-    //   component: LeagueView,
-    //   passProps: {league: leagueId}
+    //   title: 'League',
+    //   component: Quote,
+    //   passProps: {league: rowData.leagueId}
     // });
   }
 

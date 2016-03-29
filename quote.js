@@ -222,15 +222,15 @@ let styles = StyleSheet.create({
   },
   stockName: {
     color: '#000',
-    fontSize: 35,
+    fontSize: 25,
     flex: 1,
     padding: 10
   },
   stockSymbol: {
     color: '#000',
-    fontSize: 25,
+    fontSize: 20,
     flex: 1,
-    padding: 10
+    padding: 5
   },
   stockAsk: {
     color: '#000',

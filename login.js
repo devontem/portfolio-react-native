@@ -48,11 +48,7 @@ class Login extends Component {
     }
 
     return (
-      // add this back in: style={styles.container}
-      <View>
-
-        <Dashboard />
-        <Quote />
+      <View style={styles.container}>
 
         <Image style={styles.logo}
          source={require('./moneylogo.png')}/>
@@ -77,6 +73,8 @@ class Login extends Component {
           animating={this.state.showProgress}
           size="large" />
       </View>
+
+
 
       );
     }
