@@ -15,27 +15,6 @@ var {
 	ActivityIndicatorIOS
 } = React;
 
-var fakeData = [
-  {
-    "company": "Apple Inc.",
-    "symbol": "aapl",
-    "marketPrice": 105.14,
-    "shares": 10,
-    "return": 0,
-    "buysell": true,
-    "price": 105.14
-  },
-  {
-    "company": "Yahoo! Inc.",
-    "symbol": "yhoo",
-    "marketPrice": 35.23,
-    "shares": 15,
-    "return": 0,
-    "buysell": true,
-    "price": 35.23
-  }
-];
-
 var styles = StyleSheet.create({
 	description: {
 		marginBottom: 20,
@@ -116,6 +95,7 @@ var styles = StyleSheet.create({
 	}
 });
 
+
 class MakeTrade extends Component {
 
 
@@ -124,8 +104,8 @@ class MakeTrade extends Component {
 
 		// Setting initial data source as empty array
 		this.state = {
-			userId: 17,
-			leagueId: 18,
+			userId: this.props.userId,
+			leagueId: this.props.leagueId,
 			isLoading: false,
 			stocks: null,
 			stock: null,
@@ -137,8 +117,11 @@ class MakeTrade extends Component {
 			porfolioValue: 0,
 			buySell: false 
 		}
-		this.updatePortfolioAndStocks(this.state.leagueId, this.state.userId)
 	};
+
+	componentDidMount(){
+    this.updatePortfolioAndStocks(this.state.leagueId, this.state.userId)
+  }
 
 	getUserStocks(leagueId, userId) {
 		this.setState({isLoading: true});

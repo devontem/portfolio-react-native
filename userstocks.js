@@ -75,10 +75,12 @@ class UserStocks extends Component {
 		}
 
 		console.log('userstocks props', this.props.leagueId, this.props.userId)
-
-		// Getting the User's stocks initially
-		this.getUserStocks(this.state.leagueId, this.state.userId)
 	};
+
+	componentDidMount(){
+    // Getting the User's stocks initially
+		this.getUserStocks(this.state.leagueId, this.state.userId)
+  }
 
 	// Updates the user's stocks to current market price, and resets them
 	updateUserStocks(leagueId, userId) {
