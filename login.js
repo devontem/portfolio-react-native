@@ -48,8 +48,11 @@ class Login extends Component {
     }
 
     return (
+      // add this back in: style={styles.container}
+      <View>
 
-      <View style={styles.container}>
+        <Dashboard />
+        <Quote />
 
         <Image style={styles.logo}
          source={require('./moneylogo.png')}/>

@@ -86,6 +86,15 @@ class AppContainer extends Component{
         >
          <Text style={styles.welcome}>trade</Text>
         </TabBarIOS.Item>
+
+        <TabBarIOS.Item
+          title="dashboard"
+          selected={this.state.selectedTab == 'dashboard'}
+          icon={{uri: trade, scale: 6}}
+          onPress={()=> this.setState({selectedTab: 'dashboard'})}
+        >
+         <Text style={styles.welcome}>My Leagues</Text>
+        </TabBarIOS.Item>
       </TabBarIOS>
     )
   }
