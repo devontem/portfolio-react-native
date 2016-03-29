@@ -12,6 +12,8 @@ import React, {
   TouchableHighlight
 } from 'react-native';
 
+// var League = require('./league');
+
 
 class Dashboard extends Component {
   constructor(props){
@@ -22,36 +24,51 @@ class Dashboard extends Component {
     var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
 
     this.state = {
-      dataSource: ds.cloneWithRows(['League 1', 'League 2', 'League 3', 'League 4', 'League 5'])
+      dataSource: ds.cloneWithRows([''])
     };
 
   }
 
-  // componentDidMount(){
-  //   this.fetchLeagues();
-  // }
+  componentDidMount(){
+    this.fetchLeagues();
+  }
 
-  // fetchLeagues(){
+  fetchLeagues(){
 
-  //   var url = 'https://portfolioio.herokuapp.com/api/users';
+    var url = 'https://portfolioio.herokuapp.com/api/leagues/userleague';
 
-  //   fetch(url)
-  //     .then((response)=> response.json())
-  //     .then(function(data){
-  //       console.log('THIS IS THE DATA!!!!!', data)
-  //     })
-  //     .then((data)=> {
-  //       this.setState({
-  //         dataSource: this.state.dataSource
-  //             .cloneWithRows(data),
-  //           showProgress: false
-  //       })
-  //     })
-  //     .done();
-  // }
+    fetch(url, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        userId: 13
+      })
+    })
+      .then((response) => response.json())
+      .then((data)=> {
+        console.log('THIS IS THE DATA!!!!!', data)
+        var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+        this.setState({
+          dataSource: ds.cloneWithRows(data),
+            showProgress: false
+        })
+      })
+      .done();
+  }
 
   pressRow(rowData){
     console.log(rowData);
+    // add rest of code to access each league
+    // var league = rowData;
+
+    // this.props.navigator.push({
+    //   title: "League",
+    //   component: LeagueView,
+    //   passProps: {league: leagueId}
+    // });
   }
 
   renderRow(rowData){
@@ -61,7 +78,7 @@ class Dashboard extends Component {
         underlayColor='#ddd'
       >
       <View style={styles.league}>
-        <Text>{rowData}</Text>
+        <Text>{rowData.leaguename}</Text>
       </View>
       </TouchableHighlight>
     );

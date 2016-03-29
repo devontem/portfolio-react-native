@@ -45,6 +45,7 @@ class portfolio extends Component {
 
   render() {
 
+
       if(this.state.checkingAuth){
         return (
           <View style={styles.container}>

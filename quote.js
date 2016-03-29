@@ -42,6 +42,7 @@ class Quote extends Component {
 
   }
 
+
   componentDidMount(){
     this.fetchStock();
   }
@@ -86,11 +87,23 @@ class Quote extends Component {
   onSearchPressed() {
     var query = this.fetchStock(this.state.searchString)
     this._executeQuery(query);
+
+
+  pressRow(rowData){
+    console.log(rowData);
+    // add rest of code to access each league
+    // var league = rowData;
+
+    // this.props.navigator.push({
+    //   title: "League",
+    //   component: LeagueView,
+    //   passProps: {league: leagueId}
+    // });
+
   }
 
 
   render(){
-
 
 
     var spinner = this.state.isLoading ?
@@ -98,6 +111,7 @@ class Quote extends Component {
           hidden='true'
           size='large'/> ) :
       ( <View/>);
+
 
     return (
       <View style={styles.container}>
@@ -125,6 +139,14 @@ class Quote extends Component {
           <Text style={styles.stockAsk}>Ask Price: {this.state.ask}</Text>
           <Text style={styles.stockAsk}>Price Change: {this.state.change}</Text>
           <Text style={styles.stockAsk}>Percent Change: {this.state.percentChange}</Text>
+
+
+            placeholder='symbol or company name'/>
+          <TouchableHighlight style={styles.button}
+              underlayColor='#99d9f4'>
+            <Text style={styles.buttonText}>Go</Text>
+          </TouchableHighlight>
+
 
       </View>
     );
@@ -193,6 +215,7 @@ let styles = StyleSheet.create({
     fontSize: 16,
     flex: 1,
     padding: 2
+
   }
 });
 
