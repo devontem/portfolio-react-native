@@ -10,9 +10,12 @@ import React, {
   Image,
   TouchableHighlight,
   ActivityIndicatorIOS
-} from 'react-native';  
+} from 'react-native';
 
 import buffer, {} from 'buffer';
+
+var Dashboard = require('./dashboard');
+var Quote = require('./quote');
 
 class Login extends Component {
   constructor(props){
@@ -46,6 +49,7 @@ class Login extends Component {
 
     return (
       <View style={styles.container}>
+
         <Image style={styles.logo}
          source={require('./moneylogo.png')}/>
          <Text style={styles.heading}>Portfol.IO</Text>
@@ -56,10 +60,11 @@ class Login extends Component {
                     style={styles.input}
                     secureTextEntry = {true}
                     placeholder="Password"></TextInput>
-         <TouchableHighlight 
+         <TouchableHighlight
                     onPress={this.onLoginPressed.bind(this)}
                     style={styles.button}>
             <Text style={styles.buttonText}>Log in</Text>
+
          </TouchableHighlight>
 
          {errorCtrl}
@@ -68,6 +73,9 @@ class Login extends Component {
           animating={this.state.showProgress}
           size="large" />
       </View>
+
+
+
       );
     }
 
@@ -88,7 +96,7 @@ class Login extends Component {
         this.props.onLogin();
       }
     });
-  }  
+  }
 }
 
 const styles = StyleSheet.create({
@@ -99,7 +107,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding:10
   },
-  logo: { 
+  logo: {
     width: 66,
     height: 55
   },

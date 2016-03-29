@@ -8,9 +8,14 @@ import React, {
   ActivityIndicatorIOS
 } from 'react-native';
 
+
+
 var Login = require('./login');
 var AuthService = require('./AuthService');
 var AppContainer = require('./AppContainer');
+var Dashboard = require('./dashboard');
+var Quote = require('./quote');
+
 
 class portfolio extends Component {
 
@@ -40,10 +45,13 @@ class portfolio extends Component {
   }
 
   render() {
+
+
+
       if(this.state.checkingAuth){
         return (
           <View style={styles.container}>
-            <ActivityIndicatorIOS 
+            <ActivityIndicatorIOS
               animating={true}
               size="large"
               style={styles.loader} />
@@ -59,6 +67,7 @@ class portfolio extends Component {
           <Login onLogin={this.onLogin.bind(this)} getuserinfo={this.getuserinfo.bind(this)} />
         )
       }
+
   }
 
 }
