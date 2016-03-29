@@ -34,7 +34,8 @@ class Quote extends Component {
       pe: null,
       name: null,
       searchString: null,
-      isLoading: false
+      isLoading: false,
+      gotResult: false
     };
 
     //this.authorize = true;
@@ -104,6 +105,8 @@ class Quote extends Component {
 
 
   render(){
+
+
 
     var spinner = this.state.isLoading ?
       ( <ActivityIndicatorIOS
