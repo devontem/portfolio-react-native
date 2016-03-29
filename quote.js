@@ -138,7 +138,7 @@ class Quote extends Component {
           <Text style={styles.stockAsk}>{this.state.pe}</Text>
 
           <TouchableHighlight
-              style={styles.button}
+              style={styles.watch}
               onPress={this.onSearchPressed.bind(this)}
               underlayColor='#99d9f4'
           >
@@ -212,7 +212,6 @@ let styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 8,
     marginBottom: 10,
-    marginTop: 10,
     alignSelf: 'stretch',
     justifyContent: 'center'
   },
@@ -243,6 +242,18 @@ let styles = StyleSheet.create({
     fontSize: 16,
     flex: 1,
     padding: 2
+  },
+  watch: {
+    marginTop: 20,
+    height: 36,
+    flex: 1,
+    flexDirection: 'row',
+    backgroundColor: '#48BBEC',
+    borderColor: '#48BBEC',
+    borderWidth: 1,
+    borderRadius: 8,
+    alignSelf: 'stretch',
+    justifyContent: 'center'
   }
 });
 
