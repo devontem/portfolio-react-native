@@ -34,9 +34,7 @@ class Quote extends Component {
       pe: null,
       name: null,
       searchString: null,
-      isLoading: false,
-      gotResult: false
-      name: null
+      isLoading: false
     };
 
     //this.authorize = true;
@@ -50,14 +48,13 @@ class Quote extends Component {
 
   fetchStock(query){
 
-    //var stock = 'goog';
     var url = 'https://portfolioio.herokuapp.com/api/stocks/' + query;
-
 
 
     fetch(url)
       .then((response) => response.json())
       .then((stock)=> {
+        console.log('THIS IS THE STOCK DATA!!!!!', stock)
         this.setState({
           change: stock.Change,
           percentChange: stock.PercentChange,
@@ -89,6 +86,8 @@ class Quote extends Component {
   onSearchPressed() {
     var query = this.fetchStock(this.state.searchString)
     this._executeQuery(query);
+  }
+
 
 
   pressRow(rowData){
@@ -105,7 +104,6 @@ class Quote extends Component {
 
 
   render(){
-
 
     var spinner = this.state.isLoading ?
       ( <ActivityIndicatorIOS
@@ -132,7 +130,6 @@ class Quote extends Component {
             <Text style={styles.buttonText}>Search</Text>
           </TouchableHighlight>
         </View>
-
 
           {spinner}
 
