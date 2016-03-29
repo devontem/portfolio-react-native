@@ -60,7 +60,7 @@ class AppContainer extends Component{
           onPress={()=> this.setState({selectedTab: 'home'})}
         >
 
-          <Dashboard />
+          <Dashboard info={this.props.info} />
         </TabBarIOS.Item>
 
         <TabBarIOS.Item
