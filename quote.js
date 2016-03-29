@@ -56,21 +56,20 @@ class Quote extends Component {
     fetch(url)
       .then((response) => response.json())
       .then((stock)=> {
-        console.log('THIS IS THE STOCK DATA!!!!!', stock)
         this.setState({
           stock: stock,
           change: 'Price Change: ' + stock.Change,
           percentChange: 'Percent Change: ' + stock.PercentChange,
           symbol: stock.symbol.toUpperCase(),
           ask: 'Ask Price: ' + stock.Ask,
-          close: stock.close,
-          open:stock.open,
-          yrTarget:stock.yrTarget,
-          vol:stock.vol,
-          avgVol:stock.avgVol,
-          mrktCap:stock.marktCap,
-          yield: stock.yield,
-          pe: stock.pe,
+          close: 'Close Price: ' + stock.close,
+          open: 'Open Price: + ' + stock.open,
+          yrTarget:'Year Target: ' + stock.yrTarget,
+          vol: 'Vol: ' + stock.vol,
+          avgVol: 'Avg Vol: ' + stock.avgVol,
+          mrktCap: 'Mkt Cap: ' + stock.marktCap,
+          yield: 'Yield: ' + stock.yield,
+          pe: 'PE Ratio: ' + stock.pe,
           name: stock.Name,
           isLoading: false
         })
@@ -122,11 +121,21 @@ class Quote extends Component {
       (
 
         <View style={styles.quoteDisplay}>
-          <Text style={styles.stockName}>{this.state.name}</Text>
-          <Text style={styles.stockSymbol}>{this.state.symbol}</Text>
+          <Text style={styles.stockName}>{this.state.name} | {this.state.symbol}</Text>
           <Text style={styles.stockAsk}>{this.state.ask}</Text>
           <Text style={styles.stockAsk}>{this.state.change}</Text>
           <Text style={styles.stockAsk}>{this.state.percentChange}</Text>
+
+          <Text style={styles.stockAsk}>{this.state.open}</Text>
+          <Text style={styles.stockAsk}>{this.state.close}</Text>
+          <Text style={styles.stockAsk}>{this.state.target}</Text>
+
+          <Text style={styles.stockAsk}>{this.state.vol}</Text>
+          <Text style={styles.stockAsk}>{this.state.avgVol}</Text>
+          <Text style={styles.stockAsk}>{this.state.mrktCap}</Text>
+
+          <Text style={styles.stockAsk}>{this.state.yield}</Text>
+          <Text style={styles.stockAsk}>{this.state.pe}</Text>
 
           <TouchableHighlight
               style={styles.button}
@@ -181,13 +190,13 @@ let styles = StyleSheet.create({
   },
   quoteDisplay: {
     marginTop: 20,
-    alignSelf: 'stretch',
-    alignItems: 'center'
+    marginBottom: 25,
+    alignSelf: 'stretch'
   },
   flowRight: {
     flexDirection: 'row',
     alignItems: 'center',
-    alignSelf: 'stretch'
+    alignSelf: 'stretch',
   },
   buttonText: {
     fontSize: 18,
@@ -203,6 +212,7 @@ let styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 8,
     marginBottom: 10,
+    marginTop: 10,
     alignSelf: 'stretch',
     justifyContent: 'center'
   },
@@ -221,13 +231,12 @@ let styles = StyleSheet.create({
     color: '#000',
     fontSize: 25,
     flex: 1,
-    padding: 10
+    padding: 5
   },
   stockSymbol: {
     color: '#000',
-    fontSize: 20,
+    fontSize: 14,
     flex: 1,
-    padding: 5
   },
   stockAsk: {
     color: '#000',
