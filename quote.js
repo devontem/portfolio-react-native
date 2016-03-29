@@ -121,7 +121,7 @@ class Quote extends Component {
 
       (
 
-        <View>
+        <View style={styles.quoteDisplay}>
           <Text style={styles.stockName}>{this.state.name}</Text>
           <Text style={styles.stockSymbol}>{this.state.symbol}</Text>
           <Text style={styles.stockAsk}>{this.state.ask}</Text>
@@ -133,15 +133,7 @@ class Quote extends Component {
               onPress={this.onSearchPressed.bind(this)}
               underlayColor='#99d9f4'
           >
-            <Text style={styles.buttonText}>Trade</Text>
-          </TouchableHighlight>
-
-          <TouchableHighlight
-              style={styles.button}
-              onPress={this.onSearchPressed.bind(this)}
-              underlayColor='#99d9f4'
-          >
-            <Text style={styles.buttonText}>Add to Watch List</Text>
+            <Text style={styles.buttonText}>Watch Stock</Text>
           </TouchableHighlight>
         </View>
 
@@ -161,8 +153,8 @@ class Quote extends Component {
             placeholder='enter symbol'/>
           <TouchableHighlight
               style={styles.button}
-              onPress={this.onSearchPressed.bind(this)}
               underlayColor='#99d9f4'
+              onPress={this.onSearchPressed.bind(this)}
           >
             <Text style={styles.buttonText}>Search</Text>
           </TouchableHighlight>
@@ -186,6 +178,11 @@ let styles = StyleSheet.create({
     fontSize: 18,
     textAlign: 'center',
     color: '#656565',
+  },
+  quoteDisplay: {
+    marginTop: 20,
+    alignSelf: 'stretch',
+    alignItems: 'center'
   },
   flowRight: {
     flexDirection: 'row',
