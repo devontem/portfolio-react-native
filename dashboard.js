@@ -24,6 +24,8 @@ class Dashboard extends Component {
 
     var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
 
+    console.log(this.props.info,'******')
+
     this.state = {
       dataSource: ds.cloneWithRows([''])
     };
@@ -46,7 +48,7 @@ class Dashboard extends Component {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        userId: 13
+        userId: this.props.info.userId
       })
     })
       .then((response) => response.json())
