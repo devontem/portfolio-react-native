@@ -60,7 +60,11 @@ class AuthService {
               if(err){
                 throw err;
               }
-              return cb({success:true});
+              return cb({success:true,
+                         userId: results.userId.toString(),
+                         username: results.username,
+                         token: results.token
+                      });
             })
           })
           .catch((error)=>{
