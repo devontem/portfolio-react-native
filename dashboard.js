@@ -57,6 +57,7 @@ class Dashboard extends Component {
             showProgress: false
         })
       })
+      .catch(err => err)
       .done();
   }
 

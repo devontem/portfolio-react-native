@@ -14,6 +14,8 @@ import React, {
 
 import buffer, {} from 'buffer';
 
+var Dashboard = require('./dashboard');
+var Quote = require('./quote');
 
 class Login extends Component {
   constructor(props){
@@ -46,7 +48,9 @@ class Login extends Component {
     }
 
     return (
+
       <View style={styles.container}>
+
         <Image style={styles.logo}
          source={require('./moneylogo.png')}/>
          <Text style={styles.heading}>Portfol.IO</Text>
@@ -70,6 +74,7 @@ class Login extends Component {
           animating={this.state.showProgress}
           size="large" />
       </View>
+
       );
     }
 

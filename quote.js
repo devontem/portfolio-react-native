@@ -57,10 +57,10 @@ class Quote extends Component {
       .then((stock)=> {
         console.log('THIS IS THE STOCK DATA!!!!!', stock)
         this.setState({
-          change: stock.Change,
-          percentChange: stock.PercentChange,
+          change: 'Price Change: ' + stock.Change,
+          percentChange: 'Percent Change: ' + stock.PercentChange,
           symbol: stock.symbol.toUpperCase(),
-          ask: stock.Ask,
+          ask: 'Ask Price: ' + stock.Ask,
           close: stock.close,
           open:stock.open,
           yrTarget:stock.yrTarget,
@@ -73,6 +73,7 @@ class Quote extends Component {
           isLoading: false
         })
       })
+      .catch(err => err)
       .done();
   }
 
@@ -138,9 +139,25 @@ class Quote extends Component {
 
           <Text style={styles.stockName}>{this.state.name}</Text>
           <Text style={styles.stockSymbol}>{this.state.symbol}</Text>
-          <Text style={styles.stockAsk}>Ask Price: {this.state.ask}</Text>
-          <Text style={styles.stockAsk}>Price Change: {this.state.change}</Text>
-          <Text style={styles.stockAsk}>Percent Change: {this.state.percentChange}</Text>
+          <Text style={styles.stockAsk}>{this.state.ask}</Text>
+          <Text style={styles.stockAsk}>{this.state.change}</Text>
+          <Text style={styles.stockAsk}>{this.state.percentChange}</Text>
+
+          <TouchableHighlight
+              style={styles.button}
+              onPress={this.onSearchPressed.bind(this)}
+              underlayColor='#99d9f4'
+          >
+            <Text style={styles.buttonText}>Trade</Text>
+          </TouchableHighlight>
+
+          <TouchableHighlight
+              style={styles.button}
+              onPress={this.onSearchPressed.bind(this)}
+              underlayColor='#99d9f4'
+          >
+            <Text style={styles.buttonText}>Add to Watch List</Text>
+          </TouchableHighlight>
 
       </View>
     );
