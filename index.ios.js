@@ -9,6 +9,7 @@ import React, {
 } from 'react-native';
 
 
+
 var Login = require('./login');
 var AuthService = require('./AuthService');
 var AppContainer = require('./AppContainer');
@@ -46,6 +47,7 @@ class portfolio extends Component {
   render() {
 
 
+
       if(this.state.checkingAuth){
         return (
           <View style={styles.container}>
@@ -65,6 +67,7 @@ class portfolio extends Component {
           <Login onLogin={this.onLogin.bind(this)} getuserinfo={this.getuserinfo.bind(this)} />
         )
       }
+
   }
 
 }
