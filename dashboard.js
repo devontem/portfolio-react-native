@@ -120,8 +120,8 @@ class DashboardInner extends Component {
         <View >
           <Text style={styles.leaguetext}>{rowData.leaguename}</Text>
           <View>
-            <Text>Balance: {rowData.balance} </Text>
-            <Text>Portfolio Value: {rowData.portfolioValue} </Text>
+            <Text>Balance: ${rowData.balance} </Text>
+            <Text>Portfolio Value: ${rowData.portfolioValue} </Text>
             <Text>Num of Trades: {rowData.numOfTrades} </Text>
           </View>
         </View>
