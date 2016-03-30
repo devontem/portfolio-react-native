@@ -109,10 +109,32 @@ class Quote extends Component {
         userid: user
       })
     })
-      .then((response) => AlertIOS.alert(symbol + ' added to watchlist'))
+      .then(() => AlertIOS.alert(symbol + ' added to watchlist'))
+      .then(() => this.resetFields())
       .catch(err => err)
       .done();
 
+  }
+
+  resetFields() {
+    this.setState({
+      stock: null,
+      change: null,
+      percentChange: null,
+      symbol: null,
+      ask: null,
+      close: null,
+      open:null,
+      yrTarget:null,
+      vol:null,
+      avgVol:null,
+      mrktCap:null,
+      yield: null,
+      pe: null,
+      name: null,
+      searchString: null,
+      searchString: ''
+    });
   }
 
 
