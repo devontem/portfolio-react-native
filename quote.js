@@ -91,24 +91,31 @@ class Quote extends Component {
     this._executeQuery(query);
   }
 
+  onWatchPressed() {
 
+    var symbol = this.state.symbol;
+    var user = JSON.parse(this.props.info.userId);
+    var url = 'https://portfolioio.herokuapp.com/api/watchlist';
 
-  pressRow(rowData){
-    console.log(rowData);
-    // add rest of code to access each league
-    // var league = rowData;
+    fetch(url, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        symbol: symbol,
+        userid: user
+      })
+    })
+      .then((response) => console.log(response))
+      .catch(err => err)
+      .done();
 
-    // this.props.navigator.push({
-    //   title: "League",
-    //   component: LeagueView,
-    //   passProps: {league: leagueId}
-    // });
   }
 
 
   render(){
-
-
 
     var spinner = this.state.isLoading ?
       ( <ActivityIndicatorIOS
@@ -139,7 +146,7 @@ class Quote extends Component {
 
           <TouchableHighlight
               style={styles.watch}
-              onPress={this.onSearchPressed.bind(this)}
+              onPress={this.onWatchPressed.bind(this)}
               underlayColor='#99d9f4'
           >
             <Text style={styles.buttonText}>Watch Stock</Text>
