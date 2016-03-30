@@ -9,7 +9,8 @@ import React, {
   TextInput,
   View,
   ActivityIndicatorIOS,
-  TouchableHighlight
+  TouchableHighlight,
+  AlertIOS
 } from 'react-native';
 
 // var League = require('./league');
@@ -108,7 +109,7 @@ class Quote extends Component {
         userid: user
       })
     })
-      .then((response) => this.setState({stock: null}))
+      .then((response) => AlertIOS.alert(symbol + ' added to watchlist'))
       .catch(err => err)
       .done();
 
