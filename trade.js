@@ -44,7 +44,8 @@ class TradeInner extends Component {
     var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
 
     this.state = {
-      dataSource: ds.cloneWithRows([''])
+      dataSource: ds.cloneWithRows(['']),
+      isLoading: false
     };
 
   }
@@ -55,6 +56,7 @@ class TradeInner extends Component {
 
   // add in parameter for userID to pass into body:userID as a url param
   fetchLeagues(){
+    this.setState({isLoading: true});
 
     var url = 'https://portfolioio.herokuapp.com/api/leagues/userleague';
 
@@ -74,7 +76,8 @@ class TradeInner extends Component {
         var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
         this.setState({
           dataSource: ds.cloneWithRows(data),
-            showProgress: false
+            showProgress: false,
+            isLoading: false
         })
       })
       .catch(err => err)
@@ -103,8 +106,8 @@ class TradeInner extends Component {
         <View >
           <Text style={styles.leaguetext}>{rowData.leaguename}</Text>
           <View>
-            <Text>Balance: {rowData.balance} </Text>
-            <Text>Portfolio Value: {rowData.portfolioValue} </Text>
+            <Text>Balance: ${rowData.balance} </Text>
+            <Text>Portfolio Value: ${rowData.portfolioValue} </Text>
             <Text>Num of Trades: {rowData.numOfTrades} </Text>
           </View>
         </View>
@@ -119,12 +122,20 @@ class TradeInner extends Component {
 
   render(){
 
+    var spinner = this.state.isLoading ?
+      ( <ActivityIndicatorIOS
+          hidden='true'
+          size='large' /> )  : 
+      ( <View /> );
+
     return (
       <View style={styles.container}>
         <ListView
           dataSource={this.state.dataSource}
           renderRow={this.renderRow.bind(this)}
         />
+
+        {spinner}
       </View>
     );
   }
