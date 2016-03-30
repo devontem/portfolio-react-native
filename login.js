@@ -55,6 +55,8 @@ class Login extends Component {
          <Text style={styles.heading}>Portfol.IO</Text>
          <TextInput onChangeText={(text)=> this.setState({username: text})}
                     style={styles.input}
+                    autoCapitalize={'none'}
+                    autoCorrect={false}
                     placeholder="Username"></TextInput>
          <TextInput onChangeText={(text)=> this.setState({password: text})}
                     style={styles.input}

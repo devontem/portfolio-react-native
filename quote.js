@@ -9,7 +9,8 @@ import React, {
   TextInput,
   View,
   ActivityIndicatorIOS,
-  TouchableHighlight
+  TouchableHighlight,
+  AlertIOS
 } from 'react-native';
 
 // var League = require('./league');
@@ -53,24 +54,27 @@ class Quote extends Component {
     var url = 'https://portfolioio.herokuapp.com/api/stocks/' + query;
 
 
-    fetch(url)
+    fetch(url,{
+              headers: {
+                'x-access-token' : this.props.info.token
+              }
+    })
       .then((response) => response.json())
       .then((stock)=> {
-        console.log('THIS IS THE STOCK DATA!!!!!', stock)
         this.setState({
           stock: stock,
           change: 'Price Change: ' + stock.Change,
           percentChange: 'Percent Change: ' + stock.PercentChange,
           symbol: stock.symbol.toUpperCase(),
           ask: 'Ask Price: ' + stock.Ask,
-          close: stock.close,
-          open:stock.open,
-          yrTarget:stock.yrTarget,
-          vol:stock.vol,
-          avgVol:stock.avgVol,
-          mrktCap:stock.marktCap,
-          yield: stock.yield,
-          pe: stock.pe,
+          close: 'Close Price: ' + stock.close,
+          open: 'Open Price: + ' + stock.open,
+          yrTarget:'Year Target: ' + stock.yrTarget,
+          vol: 'Vol: ' + stock.vol,
+          avgVol: 'Avg Vol: ' + stock.avgVol,
+          mrktCap: 'Mkt Cap: ' + stock.marktCap,
+          yield: 'Yield: ' + stock.yield,
+          pe: 'PE Ratio: ' + stock.pe,
           name: stock.Name,
           isLoading: false
         })
@@ -92,24 +96,54 @@ class Quote extends Component {
     this._executeQuery(query);
   }
 
+  onWatchPressed() {
 
+    var symbol = this.state.symbol;
+    var user = JSON.parse(this.props.info.userId);
+    var url = 'https://portfolioio.herokuapp.com/api/watchlist';
 
-  pressRow(rowData){
-    console.log(rowData);
-    // add rest of code to access each league
-    // var league = rowData;
+    fetch(url, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
 
-    // this.props.navigator.push({
-    //   title: "League",
-    //   component: LeagueView,
-    //   passProps: {league: leagueId}
-    // });
+      },
+      body: JSON.stringify({
+        symbol: symbol,
+        userid: user
+      })
+    })
+      .then(() => AlertIOS.alert(symbol + ' added to watchlist'))
+      .then(() => this.resetFields())
+      .catch(err => err)
+      .done();
+
+  }
+
+  resetFields() {
+    this.setState({
+      stock: null,
+      change: null,
+      percentChange: null,
+      symbol: null,
+      ask: null,
+      close: null,
+      open:null,
+      yrTarget:null,
+      vol:null,
+      avgVol:null,
+      mrktCap:null,
+      yield: null,
+      pe: null,
+      name: null,
+      searchString: null,
+      searchString: ''
+    });
   }
 
 
   render(){
-
-
 
     var spinner = this.state.isLoading ?
       ( <ActivityIndicatorIOS
@@ -121,27 +155,29 @@ class Quote extends Component {
 
       (
 
-        <View>
-          <Text style={styles.stockName}>{this.state.name}</Text>
-          <Text style={styles.stockSymbol}>{this.state.symbol}</Text>
+        <View style={styles.quoteDisplay}>
+          <Text style={styles.stockName}>{this.state.name} | {this.state.symbol}</Text>
           <Text style={styles.stockAsk}>{this.state.ask}</Text>
           <Text style={styles.stockAsk}>{this.state.change}</Text>
           <Text style={styles.stockAsk}>{this.state.percentChange}</Text>
 
-          <TouchableHighlight
-              style={styles.button}
-              onPress={this.onSearchPressed.bind(this)}
-              underlayColor='#99d9f4'
-          >
-            <Text style={styles.buttonText}>Trade</Text>
-          </TouchableHighlight>
+          <Text style={styles.stockAsk}>{this.state.open}</Text>
+          <Text style={styles.stockAsk}>{this.state.close}</Text>
+          <Text style={styles.stockAsk}>{this.state.target}</Text>
+
+          <Text style={styles.stockAsk}>{this.state.vol}</Text>
+          <Text style={styles.stockAsk}>{this.state.avgVol}</Text>
+          <Text style={styles.stockAsk}>{this.state.mrktCap}</Text>
+
+          <Text style={styles.stockAsk}>{this.state.yield}</Text>
+          <Text style={styles.stockAsk}>{this.state.pe}</Text>
 
           <TouchableHighlight
-              style={styles.button}
-              onPress={this.onSearchPressed.bind(this)}
+              style={styles.watch}
+              onPress={this.onWatchPressed.bind(this)}
               underlayColor='#99d9f4'
           >
-            <Text style={styles.buttonText}>Add to Watch List</Text>
+            <Text style={styles.buttonText}>Watch Stock</Text>
           </TouchableHighlight>
         </View>
 
@@ -157,12 +193,15 @@ class Quote extends Component {
           <TextInput
             style={styles.searchInput}
             value={this.state.searchString}
+            autoCapitalize={'none'}
+            autoCorrect={false}
+            maxLength={5}
             onChange={this.onSearchTextChanged.bind(this)}
             placeholder='enter symbol'/>
           <TouchableHighlight
               style={styles.button}
-              onPress={this.onSearchPressed.bind(this)}
               underlayColor='#99d9f4'
+              onPress={this.onSearchPressed.bind(this)}
           >
             <Text style={styles.buttonText}>Search</Text>
           </TouchableHighlight>
@@ -187,10 +226,15 @@ let styles = StyleSheet.create({
     textAlign: 'center',
     color: '#656565',
   },
+  quoteDisplay: {
+    marginTop: 20,
+    marginBottom: 25,
+    alignSelf: 'stretch'
+  },
   flowRight: {
     flexDirection: 'row',
     alignItems: 'center',
-    alignSelf: 'stretch'
+    alignSelf: 'stretch',
   },
   buttonText: {
     fontSize: 18,
@@ -218,25 +262,36 @@ let styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#48BBEC',
     borderRadius: 8,
-    color: '#48BBEC'
+    color: '#48BBEC',
   },
   stockName: {
     color: '#000',
     fontSize: 25,
     flex: 1,
-    padding: 10
+    padding: 5
   },
   stockSymbol: {
     color: '#000',
-    fontSize: 20,
+    fontSize: 14,
     flex: 1,
-    padding: 5
   },
   stockAsk: {
     color: '#000',
     fontSize: 16,
     flex: 1,
     padding: 2
+  },
+  watch: {
+    marginTop: 20,
+    height: 36,
+    flex: 1,
+    flexDirection: 'row',
+    backgroundColor: '#48BBEC',
+    borderColor: '#48BBEC',
+    borderWidth: 1,
+    borderRadius: 8,
+    alignSelf: 'stretch',
+    justifyContent: 'center'
   }
 });
 
