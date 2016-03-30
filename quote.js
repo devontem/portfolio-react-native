@@ -54,7 +54,11 @@ class Quote extends Component {
     var url = 'https://portfolioio.herokuapp.com/api/stocks/' + query;
 
 
-    fetch(url)
+    fetch(url,{
+              headers: {
+                'x-access-token' : this.props.info.token
+              }
+    })
       .then((response) => response.json())
       .then((stock)=> {
         this.setState({
@@ -103,6 +107,7 @@ class Quote extends Component {
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
+
       },
       body: JSON.stringify({
         symbol: symbol,
