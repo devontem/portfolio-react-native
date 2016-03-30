@@ -108,7 +108,7 @@ class Quote extends Component {
         userid: user
       })
     })
-      .then((response) => console.log(response))
+      .then((response) => this.setState({stock: null}))
       .catch(err => err)
       .done();
 
@@ -165,6 +165,7 @@ class Quote extends Component {
           <TextInput
             style={styles.searchInput}
             value={this.state.searchString}
+            autoCapitalize={'none'}
             onChange={this.onSearchTextChanged.bind(this)}
             placeholder='enter symbol'/>
           <TouchableHighlight
@@ -231,7 +232,7 @@ let styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#48BBEC',
     borderRadius: 8,
-    color: '#48BBEC'
+    color: '#48BBEC',
   },
   stockName: {
     color: '#000',
