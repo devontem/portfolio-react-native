@@ -13,7 +13,6 @@ import React, {
   ActivityIndicatorIOS
 } from 'react-native';  
 
-
 class Watchlist extends Component {
   constructor(props) {
     super(props)
@@ -23,7 +22,7 @@ class Watchlist extends Component {
     return (
       <React.NavigatorIOS
         style={styles.wrapper}
-        barTintColor="#48BBEC"
+        barTintColor= '#48BBEC'
         initialRoute={{
           title: 'Watchlist',
           component: WatchlistInner,
@@ -31,12 +30,11 @@ class Watchlist extends Component {
         }} />
     )
   }
-}
+} 
 
 class WatchlistInner extends Component {
 	constructor(props) {
 		super(props);
-		
 		this.state ={
 			dataSource: new ListView.DataSource({
 			rowHasChanged: (r1,r2) => r1 != r2
@@ -55,41 +53,39 @@ class WatchlistInner extends Component {
         borderColor: '#D7D7D7',
         borderBottomWidth: 1,
 
-
       }}>
       <Text style={{
 				color: '#333',
-				backgroundColor:'#fff',
-				alignSelf: 'center'
+				backgroundColor:'#F5FCFF',
+				textAlign: 'center',
+        flex: 1
+        
 			}}>
 			{rowData[0]} 
 			</Text>
       <Text style={{
         color: '#333',
-        backgroundColor:'#fff',
-        left: 25
+        backgroundColor:'#F5FCFF',
+        flex: 1,
+        textAlign: 'center'
       }}>
       {rowData[1]} 
       </Text>
-      <Text style={{
-        color: '#00cc00',
-        backgroundColor:'#fff',
-        left: 50
-      }}>
+      <Text style={
+        color(rowData[2])
+        
+      }>
       {rowData[2]} 
       </Text>
-      <Text style={{
-        color: '#ff3300',
-        backgroundColor:'#fff',
-        left: 60
-      }}>
+      <Text style={
+        percent(rowData[2])
+      }>
       {rowData[3]}
       </Text>
       </View>
       )
 		}
 	
-
 	render() {
 		return (
           <View style ={{
@@ -99,7 +95,12 @@ class WatchlistInner extends Component {
             paddingBottom: 100
 
           }}>
+          <TouchableHighlight style={styles.button} onPress={this._onPressButton.bind(this)}> 
+                    
+            <Text style={styles.buttonText}>Watchlist</Text>
 
+            
+         </TouchableHighlight>
              <ListView
                dataSource={this.state.dataSource}
                renderRow={this.renderRow.bind(this)} />
@@ -111,7 +112,10 @@ class WatchlistInner extends Component {
 		this._onPressButton();
 	}
 
+
+
 	_onPressButton(){
+		console.log(this.props.info,'hi')
 		
 		fetch('https://portfolioio.herokuapp.com/api/watchlist/' + this.props.info.userId
 			, {
@@ -119,153 +123,85 @@ class WatchlistInner extends Component {
           'Accept': 'application/json',
           'Content-Type': 'application/json'
         },
-        method: 'GET'
+         method: 'GET',
+        
        }
       )
       .then((response)=> { 
-        var datas =[];
-        response.json()
-          .then((data)=>{
-            console.log(data);
-            for(var key in data){
-              datas.push(key)
-            }
-              var list ='';
-              for(var i=0; i<datas.length; i++){
-                list+=datas[i] + '+';
-              }
-              list= list.slice(0,-1);
-
-              fetch('http://finance.yahoo.com/d/quotes.csv?s=' + list + '&f=sac1p2',{
-                method: 'GET'
-              }
-              )
-              .then((response) => {
-
-                var results =[];
-                var stocks =[];
-                var final = [];
-                
-                var ask = response._bodyText.toString().split('\n');
-                ask.forEach(function(item){
-                    results.push(item.split(','))
-                })
-
-                  results.forEach(function(stocks){
-                    stocks.forEach(function(stock){
-                    var result1 = stock.replace(/\"/g,'');
-                    if(result1.match(/^[A-Z]*$/)){
-                      result1 = result1
-                    }
-                  else if(/[\%]/.test(result1)){
-                    
-                    var res = result1.replace(/\%/,'')
-                    var sign = res[0];
-                    var decimal = res.substr(1)
-                    var ans = parseFloat(decimal).toFixed(2)
-                    var final = sign + ans.toString()
-                    result1=final.concat('%')
-                  }
-                  else{
-                    var other = parseFloat(result1).toFixed(2);
-                    result1 = other.toString()
-                  }
-                    stocks.push(result1)
-                  })
-                  final.push(stocks);
-                  stocks=[]
-                  
-                  })
-                  var finalfinal= [];
-                  var final2;
-                  final.forEach(function(stock){
-                    final2 = stock.slice(4);
-                    console.log(final2,'finalll');
-                    finalfinal.push(final2)
-
-                  })
-                  finalfinal.pop()
-
-                  
-                  this.setState({dataSource: this.state.dataSource.cloneWithRows(finalfinal)})
-
-                console.log(this.state.dataSource,'ressppp')
-              })
-
-              
-              response.json();
-            })            
-          })
-       //  var da = JSON.parse(response._bodyText);
-       //  console.log(da,'da')
-      
+      	var datas =[]
+        var da = JSON.parse(response._bodyText);
+        console.log(da,'da')
+        for(var key in da){
+          datas.push(key)
+        }
+        
         //this.setState({dataSource: this.state.dataSource.cloneWithRows(datas)})
+        console.log(datas,'data')
+        var list ='';
+        for(var i=0; i<datas.length; i++){
+          list+=datas[i] + '+';
+        }
+        list= list.slice(0,-1);
 
-      //   var list ='';
-      //   for(var i=0; i<datas.length; i++){
-      //     list+=datas[i] + '+';
-      //   }
-      //   list= list.slice(0,-1);
+        fetch('http://finance.yahoo.com/d/quotes.csv?s=' + list + '&f=sac1p2',{
+        	method: 'GET'
+        }
+        )
+        .then((response) => {
 
-      //   fetch('http://finance.yahoo.com/d/quotes.csv?s=' + list + '&f=sac1p2',{
-      //   	method: 'GET'
-      //   }
-      //   )
-      //   .then((response) => {
-
-      //   	var results =[];
-      //   	var stocks =[];
-      //   	var final = [];
+        	var results =[];
+        	var stocks =[];
+        	var final = [];
         	
-      //   	var ask = response._bodyText.toString().split('\n');
-      //   	ask.forEach(function(item){
-      //         results.push(item.split(','))
-      //   	})
+        	var ask = response._bodyText.toString().split('\n');
+        	ask.forEach(function(item){
+              results.push(item.split(','))
+        	})
 
-      //       results.forEach(function(stocks){
-      //       	stocks.forEach(function(stock){
-      //         var result1 = stock.replace(/\"/g,'');
-      //         if(result1.match(/^[A-Z]*$/)){
-      //         	result1 = result1
-      //         }
-	     //      else if(/[\%]/.test(result1)){
+            results.forEach(function(stocks){
+            	stocks.forEach(function(stock){
+              var result1 = stock.replace(/\"/g,'');
+              if(result1.match(/^[A-Z]*$/)){
+              	result1 = result1
+              }
+	          else if(/[\%]/.test(result1)){
 	            
-	     //        var res = result1.replace(/\%/,'')
-	     //        var sign = res[0];
-	     //        var decimal = res.substr(1)
-	     //        var ans = parseFloat(decimal).toFixed(2)
-	     //        var final = sign + ans.toString()
-	     //        result1=final.concat('%')
-	     //      }
-	     //      else{
-	     //      	var other = parseFloat(result1).toFixed(2);
-	     //      	result1 = other.toString()
-	     //      }
-      //         stocks.push(result1)
-      //       })
-      //       final.push(stocks);
-      //       stocks=[]
+	            var res = result1.replace(/\%/,'')
+	            var sign = res[0];
+	            var decimal = res.substr(1)
+	            var ans = parseFloat(decimal).toFixed(2)
+	            var final = sign + ans.toString()
+	            result1=final.concat('%')
+	          }
+	          else{
+	          	var other = parseFloat(result1).toFixed(2);
+	          	result1 = other.toString()
+	          }
+              stocks.push(result1)
+            })
+            final.push(stocks);
+            stocks=[]
             
-      //       })
-      //       var finalfinal= [];
-      //       var final2;
-      //       final.forEach(function(stock){
-      //       	final2 = stock.slice(4);
-      //       	console.log(final2,'finalll');
-      //       	finalfinal.push(final2)
+            })
+            var finalfinal= [];
+            var final2;
+            final.forEach(function(stock){
+            	final2 = stock.slice(4);
+            	console.log(final2,'finalll');
+            	finalfinal.push(final2)
 
-      //       })
-      //       finalfinal.pop()
+            })
+            finalfinal.pop()
 
             
-      //       this.setState({dataSource: this.state.dataSource.cloneWithRows(finalfinal)})
+            this.setState({dataSource: this.state.dataSource.cloneWithRows(finalfinal)})
 
-      //   	console.log(this.state.dataSource,'ressppp')
-      //   })
+        	console.log(this.state.dataSource,'ressppp')
+        })
 
         
-      //   response.json();
-      // })
+        response.json();
+      })
       // .then((responseData)=>{
       //   console.log(responseData,'ressss');
       //   //this.setState({dataSource: this.state.dataSource.cloneWithRows(responseData)});
@@ -275,10 +211,53 @@ class WatchlistInner extends Component {
 
 }
 
+function color(number) {
+  number = parseFloat(number)
+  console.log(typeof number, '&&&&&')
+  if(number >= 0){
+  return {
+    color: '#00cc00',
+    backgroundColor: '#F5FCFF',
+    flex: 1,
+    textAlign: 'center'
+  }
+}
+  if(number < 0){
+    return {
+      color: '#ff3300',
+      backgroundColor: '#F5FCFF',
+      flex: 1,
+      textAlign: 'center'
+    }
+  }
+}
+function percent (number) {
+  number = parseFloat(number)
+  console.log(typeof number, '&&&&&')
+  if(number >= 0){
+  return {
+    color: '#00cc00',
+    backgroundColor: '#F5FCFF',
+    flex: 1,
+    textAlign: 'center'
+  }
+}
+  if(number < 0){
+    return {
+      color: '#ff3300',
+      backgroundColor: '#F5FCFF',
+      flex: 1,
+    textAlign: 'center'
+    }
+  }
+}
+  
+    
+      
+
+
+
 const styles = StyleSheet.create({
-  wrapper: {
-    flex: 1
-  },
   container: {
     backgroundColor: '#F5FCFF',
     flex: 1,
@@ -286,7 +265,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding:10
   },
-
+  wrapper:{
+    flex:1
+  },
   header: {
   	alignItems: 'center',
   	justifyContent: 'center',
