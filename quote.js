@@ -14,9 +14,26 @@ import React, {
 } from 'react-native';
 
 // var League = require('./league');
-
-
 class Quote extends Component {
+  constructor(props) {
+    super(props)
+  }
+
+  render(){
+    return (
+      <React.NavigatorIOS
+        style={styles.wrapper}
+        barTintColor="#48BBEC"
+        initialRoute={{
+          title: 'Get Quote',
+          component: QuoteInner,
+          passProps: {info: this.props.info}
+        }} />
+    )
+  }
+}
+
+class QuoteInner extends Component {
   constructor(props){
     super(props);
 
@@ -215,6 +232,9 @@ class Quote extends Component {
 }
 
 let styles = StyleSheet.create({
+  wrapper: {
+    flex: 1
+  },
   container: {
     padding: 30,
     marginTop: 65,

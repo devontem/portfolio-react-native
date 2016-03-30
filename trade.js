@@ -28,6 +28,7 @@ class Trade extends Component {
     return (
       <React.NavigatorIOS
         style={styles.wrapper}
+        barTintColor="#48BBEC"
         initialRoute={{
           title: 'Trades',
           component: TradeInner,
@@ -41,11 +42,7 @@ class TradeInner extends Component {
   constructor(props){
     super(props);
 
-    //this.authorize = true;
-
     var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
-
-    // console.log(this.props.info,'******')
 
     this.state = {
       dataSource: ds.cloneWithRows([''])
@@ -67,6 +64,7 @@ class TradeInner extends Component {
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
+        'x-access-token' : this.props.info.token
       },
       body: JSON.stringify({
         userId: this.props.info.userId
@@ -74,8 +72,6 @@ class TradeInner extends Component {
     })
       .then((response) => response.json())
       .then((data)=> {
-        console.log('THIS IS THE DATA!!!!!', data)
-        console.log('these are the props', this.props.info)
         var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
         this.setState({
           dataSource: ds.cloneWithRows(data),
@@ -105,7 +101,7 @@ class TradeInner extends Component {
         underlayColor='#ddd'
       >
       <View style={styles.league}>
-        <Text>{rowData.leaguename}</Text>
+        <Text style={styles.leaguetext}>{rowData.leaguename}</Text>
       </View>
       </TouchableHighlight>
     );
@@ -116,7 +112,7 @@ class TradeInner extends Component {
 
     return (
       <View style={styles.container}>
-        <Text style={styles.leaguePageHeader}>MY LEAGUES</Text>
+        <Text style={styles.leaguePageHeader}>My Leagues</Text>
         <ListView
           dataSource={this.state.dataSource}
           renderRow={this.renderRow.bind(this)}
@@ -135,8 +131,8 @@ let styles = StyleSheet.create({
     backgroundColor: '#F5FCFF'
   },
   leaguePageHeader: {
-    color: 'green',
-    fontSize: 25
+    top:20,
+    fontSize: 20
   },
   wrapper: {
     flex: 1
@@ -148,7 +144,11 @@ let styles = StyleSheet.create({
     alignItems: 'center',
     borderColor: '#D7D7D7',
     borderBottomWidth: 1
-  }
+  },
+  leaguetext: {
+    flex:1,
+    fontSize:15
+  },
 });
 
 module.exports = Trade;

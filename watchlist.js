@@ -13,12 +13,29 @@ import React, {
   ActivityIndicatorIOS
 } from 'react-native';  
 
-  
 
 class Watchlist extends Component {
+  constructor(props) {
+    super(props)
+  }
+
+  render(){
+    return (
+      <React.NavigatorIOS
+        style={styles.wrapper}
+        barTintColor="#48BBEC"
+        initialRoute={{
+          title: 'Watchlist',
+          component: WatchlistInner,
+          passProps: {info: this.props.info}
+        }} />
+    )
+  }
+}
+
+class WatchlistInner extends Component {
 	constructor(props) {
 		super(props);
-		
 		
 		this.state ={
 			dataSource: new ListView.DataSource({
@@ -82,11 +99,7 @@ class Watchlist extends Component {
             paddingBottom: 100
 
           }}>
-          <TouchableHighlight style={styles.button}> 
-                    
-            <Text style={styles.buttonText}>Watchlist</Text>
-            
-         </TouchableHighlight>
+
              <ListView
                dataSource={this.state.dataSource}
                renderRow={this.renderRow.bind(this)} />
@@ -99,7 +112,6 @@ class Watchlist extends Component {
 	}
 
 	_onPressButton(){
-		console.log(this.props.info,'hi')
 		
 		fetch('https://portfolioio.herokuapp.com/api/watchlist/' + this.props.info.userId
 			, {
@@ -107,85 +119,153 @@ class Watchlist extends Component {
           'Accept': 'application/json',
           'Content-Type': 'application/json'
         },
-         method: 'GET',
-        
+        method: 'GET'
        }
       )
       .then((response)=> { 
-      	var datas =[]
-        var da = JSON.parse(response._bodyText);
-        console.log(da,'da')
-        for(var key in da){
-          datas.push(key)
-        }
-        
-        //this.setState({dataSource: this.state.dataSource.cloneWithRows(datas)})
-        console.log(datas,'data')
-        var list ='';
-        for(var i=0; i<datas.length; i++){
-          list+=datas[i] + '+';
-        }
-        list= list.slice(0,-1);
-
-        fetch('http://finance.yahoo.com/d/quotes.csv?s=' + list + '&f=sac1p2',{
-        	method: 'GET'
-        }
-        )
-        .then((response) => {
-
-        	var results =[];
-        	var stocks =[];
-        	var final = [];
-        	
-        	var ask = response._bodyText.toString().split('\n');
-        	ask.forEach(function(item){
-              results.push(item.split(','))
-        	})
-
-            results.forEach(function(stocks){
-            	stocks.forEach(function(stock){
-              var result1 = stock.replace(/\"/g,'');
-              if(result1.match(/^[A-Z]*$/)){
-              	result1 = result1
+        var datas =[];
+        response.json()
+          .then((data)=>{
+            console.log(data);
+            for(var key in data){
+              datas.push(key)
+            }
+              var list ='';
+              for(var i=0; i<datas.length; i++){
+                list+=datas[i] + '+';
               }
-	          else if(/[\%]/.test(result1)){
+              list= list.slice(0,-1);
+
+              fetch('http://finance.yahoo.com/d/quotes.csv?s=' + list + '&f=sac1p2',{
+                method: 'GET'
+              }
+              )
+              .then((response) => {
+
+                var results =[];
+                var stocks =[];
+                var final = [];
+                
+                var ask = response._bodyText.toString().split('\n');
+                ask.forEach(function(item){
+                    results.push(item.split(','))
+                })
+
+                  results.forEach(function(stocks){
+                    stocks.forEach(function(stock){
+                    var result1 = stock.replace(/\"/g,'');
+                    if(result1.match(/^[A-Z]*$/)){
+                      result1 = result1
+                    }
+                  else if(/[\%]/.test(result1)){
+                    
+                    var res = result1.replace(/\%/,'')
+                    var sign = res[0];
+                    var decimal = res.substr(1)
+                    var ans = parseFloat(decimal).toFixed(2)
+                    var final = sign + ans.toString()
+                    result1=final.concat('%')
+                  }
+                  else{
+                    var other = parseFloat(result1).toFixed(2);
+                    result1 = other.toString()
+                  }
+                    stocks.push(result1)
+                  })
+                  final.push(stocks);
+                  stocks=[]
+                  
+                  })
+                  var finalfinal= [];
+                  var final2;
+                  final.forEach(function(stock){
+                    final2 = stock.slice(4);
+                    console.log(final2,'finalll');
+                    finalfinal.push(final2)
+
+                  })
+                  finalfinal.pop()
+
+                  
+                  this.setState({dataSource: this.state.dataSource.cloneWithRows(finalfinal)})
+
+                console.log(this.state.dataSource,'ressppp')
+              })
+
+              
+              response.json();
+            })            
+          })
+       //  var da = JSON.parse(response._bodyText);
+       //  console.log(da,'da')
+      
+        //this.setState({dataSource: this.state.dataSource.cloneWithRows(datas)})
+
+      //   var list ='';
+      //   for(var i=0; i<datas.length; i++){
+      //     list+=datas[i] + '+';
+      //   }
+      //   list= list.slice(0,-1);
+
+      //   fetch('http://finance.yahoo.com/d/quotes.csv?s=' + list + '&f=sac1p2',{
+      //   	method: 'GET'
+      //   }
+      //   )
+      //   .then((response) => {
+
+      //   	var results =[];
+      //   	var stocks =[];
+      //   	var final = [];
+        	
+      //   	var ask = response._bodyText.toString().split('\n');
+      //   	ask.forEach(function(item){
+      //         results.push(item.split(','))
+      //   	})
+
+      //       results.forEach(function(stocks){
+      //       	stocks.forEach(function(stock){
+      //         var result1 = stock.replace(/\"/g,'');
+      //         if(result1.match(/^[A-Z]*$/)){
+      //         	result1 = result1
+      //         }
+	     //      else if(/[\%]/.test(result1)){
 	            
-	            var res = result1.replace(/\%/,'')
-	            var sign = res[0];
-	            var decimal = res.substr(1)
-	            var ans = parseFloat(decimal).toFixed(2)
-	            var final = sign + ans.toString()
-	            result1=final.concat('%')
-	          }
-	          else{
-	          	var other = parseFloat(result1).toFixed(2);
-	          	result1 = other.toString()
-	          }
-              stocks.push(result1)
-            })
-            final.push(stocks);
-            stocks=[]
+	     //        var res = result1.replace(/\%/,'')
+	     //        var sign = res[0];
+	     //        var decimal = res.substr(1)
+	     //        var ans = parseFloat(decimal).toFixed(2)
+	     //        var final = sign + ans.toString()
+	     //        result1=final.concat('%')
+	     //      }
+	     //      else{
+	     //      	var other = parseFloat(result1).toFixed(2);
+	     //      	result1 = other.toString()
+	     //      }
+      //         stocks.push(result1)
+      //       })
+      //       final.push(stocks);
+      //       stocks=[]
             
-            })
-            var finalfinal= [];
-            var final2;
-            final.forEach(function(stock){
-            	final2 = stock.slice(4);
-            	console.log(final2,'finalll');
-            	finalfinal.push(final2)
+      //       })
+      //       var finalfinal= [];
+      //       var final2;
+      //       final.forEach(function(stock){
+      //       	final2 = stock.slice(4);
+      //       	console.log(final2,'finalll');
+      //       	finalfinal.push(final2)
 
-            })
-            finalfinal.pop()
+      //       })
+      //       finalfinal.pop()
 
             
-            this.setState({dataSource: this.state.dataSource.cloneWithRows(finalfinal)})
+      //       this.setState({dataSource: this.state.dataSource.cloneWithRows(finalfinal)})
 
-        	console.log(this.state.dataSource,'ressppp')
-        })
+      //   	console.log(this.state.dataSource,'ressppp')
+      //   })
 
         
-        response.json();
-      })
+      //   response.json();
+      // })
       // .then((responseData)=>{
       //   console.log(responseData,'ressss');
       //   //this.setState({dataSource: this.state.dataSource.cloneWithRows(responseData)});
@@ -196,6 +276,9 @@ class Watchlist extends Component {
 }
 
 const styles = StyleSheet.create({
+  wrapper: {
+    flex: 1
+  },
   container: {
     backgroundColor: '#F5FCFF',
     flex: 1,

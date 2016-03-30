@@ -52,7 +52,7 @@ class Login extends Component {
 
         <Image style={styles.logo}
          source={require('./moneylogo.png')}/>
-         <Text style={styles.heading}>Portfol.IO</Text>
+         <Text style={styles.heading}>Portfol.io</Text>
          <TextInput onChangeText={(text)=> this.setState({username: text})}
                     style={styles.input}
                     autoCapitalize={'none'}
@@ -110,8 +110,8 @@ const styles = StyleSheet.create({
     padding:10
   },
   logo: {
-    width: 66,
-    height: 55
+    width: 82,
+    height: 70
   },
   heading:{
     fontSize: 50,
@@ -123,7 +123,8 @@ const styles = StyleSheet.create({
     padding:4,
     fontSize: 18,
     borderWidth:1,
-    borderColor: '#48bbec'
+    borderColor: '#48bbec',
+    borderRadius: 5
   },
   button:{
     height: 50,
@@ -131,6 +132,7 @@ const styles = StyleSheet.create({
     alignSelf: 'stretch',
     marginTop: 10,
     justifyContent: 'center',
+    borderRadius: 5
   },
   buttonText:{
     fontSize: 22,
