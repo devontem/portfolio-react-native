@@ -126,7 +126,10 @@ class MakeTrade extends Component {
 	getUserStocks(leagueId, userId) {
 		this.setState({isLoading: true});
 		// console.log('https://portfolioio.herokuapp.com/api/portfolios/stocks/'+13+'/'+14)
-		fetch('https://portfolioio.herokuapp.com/api/portfolios/stocks/'+leagueId+'/'+userId)
+		fetch('https://portfolioio.herokuapp.com/api/portfolios/stocks/'+leagueId+'/'+userId, {
+              headers: {
+                'x-access-token' : this.props.token
+              }})
 		.then((response) => response.json())
 		.then((data) => {
 			// Setting state (thus re-rendering template)
@@ -143,7 +146,10 @@ class MakeTrade extends Component {
 	getUserPortfolio(leagueId, userId) {
 		this.setState({isLoading: true});
 
-		fetch('https://portfolioio.herokuapp.com/api/portfolios/'+leagueId+'/'+userId)
+		fetch('https://portfolioio.herokuapp.com/api/portfolios/'+leagueId+'/'+userId,  {
+              headers: {
+                'x-access-token' : this.props.token
+              }})
 		.then((response) => response.json())
 		.then((data) => {
 			// Setting state (thus re-rendering template)
@@ -162,7 +168,10 @@ class MakeTrade extends Component {
 		this.setState({isLoading: true});
 
 		var query = 'https://portfolioio.herokuapp.com/api/stocks/'+stockName;
-		return fetch(query)
+		return fetch(query,  {
+              headers: {
+                'x-access-token' : this.props.token
+              }})
 		.then((response) => {
 			return response.json();
 		})
@@ -198,7 +207,7 @@ class MakeTrade extends Component {
 		console.log('perform action options, ', options);
 		// return false;
 
-		this.state.total = this.state.stockAmount * this.state.stock.Ask;
+		this.state.total = this.state.stockAmount * this.state.stock.Ask + 10;
 		console.log('my total is....'+ this.state.total)
 
 		// if selling stock, must own it and enough shares
@@ -255,6 +264,7 @@ class MakeTrade extends Component {
 		  headers: {
 		    'Accept': 'application/json',
 		    'Content-Type': 'application/json',
+		    'x-access-token' : this.props.token
 		  },
 		  body: JSON.stringify(options)
 		}).then(()=>{
@@ -268,6 +278,7 @@ class MakeTrade extends Component {
 		  headers: {
 		    'Accept': 'application/json',
 		    'Content-Type': 'application/json',
+		    'x-access-token' : this.props.token
 		  },
 		  body: JSON.stringify(options)
 		}).then(function(data){
