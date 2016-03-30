@@ -54,6 +54,12 @@ class AuthService {
             return response;
           })
           .then((results) => {
+            fetch('http://127.0.0.1:3000/',{
+              headers: {
+                'x-access-token' : results.token
+              }
+            })
+
             AsyncStorage.multiSet([
                 ['userId', results.userId.toString()], ['username', results.username], ['token', results.token]
             ], (err)=> {
