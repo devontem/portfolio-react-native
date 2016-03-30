@@ -15,86 +15,6 @@ var {
 	ActivityIndicatorIOS
 } = React;
 
-var styles = StyleSheet.create({
-	description: {
-		marginBottom: 20,
-		fontSize: 18,
-		textAlign: 'center',
-		color: '#656565'
-	},
-	switch: {
-		flexDirection: 'row',
-		alignSelf: 'center',
-		margin: 10
-	},
-	container: {
-		padding: 50,
-		marginTop: 65,
-		alignItems: 'center'
-	},
-	flowRight: {
-	  flexDirection: 'row',
-	  alignItems: 'center',
-	  alignSelf: 'stretch'
-		},
-	buttonText: {
-	  fontSize: 18,
-	  color: 'white',
-	  alignSelf: 'center'
-	},
-	button: {
-	  height: 36,
-	  flex: 1,
-	  flexDirection: 'row',
-	  backgroundColor: '#48BBEC',
-	  borderColor: '#48BBEC',
-	  borderWidth: 1,
-	  borderRadius: 8,
-	  marginBottom: 10,
-	  width: 300,
-	  alignSelf: 'stretch',
-	  justifyContent: 'center'
-	},
-	searchInput: {
-	  height: 36,
-	  padding: 4,
-	  marginRight: 5,
-	  flex: 4,
-	  marginTop: 10,
-	  width: 300,
-	  fontSize: 18,
-	  borderWidth: 1,
-	  borderColor: '#48BBEC',
-	  borderRadius: 8,
-	  color: '#48BBEC'
-	},
-	headerText: {
-		fontSize: 30,
-		textAlign: 'center'
-	},
-	switchText:{
-		marginTop: 5,
-		marginRight: 5,
-		marginLeft: 5
-	},
-	separator: {
-		borderWidth: 1,
-		flexDirection: 'row',
-		width:300,
-		marginTop: 10,
-		marginBottom: 20,
-		borderColor: '#ddd'
-	},
-	estimate:{
-		flexDirection: 'column',
-		marginLeft: 25
-	},
-	estimateText:{
-		marginTop: 5,
-		color: 'green'
-	}
-});
-
 
 class MakeTrade extends Component {
 
@@ -109,7 +29,7 @@ class MakeTrade extends Component {
 			isLoading: false,
 			stocks: null,
 			stock: null,
-			stockAmount: 1,
+			stockAmount: 0,
 			searchInput: '',
 			portfolio: {},
 			total: 0,
@@ -336,27 +256,31 @@ class MakeTrade extends Component {
 	render() {
 
 		var showTrade = this.state.stock && this.state.stock.Ask !== 'N/A' ?
-		(<View>
-			<TextInput placeholder="Choose Amount to Purchase" 
-												onChangeText={this.updateTotal.bind(this)}
-												style={styles.searchInput}   />
+		(<View style={styles.showTrade}>
+						<Text style={styles.symbol}>{this.state.stock.symbol.toUpperCase() || 0}</Text>
 						<View style={styles.separator}></View>
-						<View style={styles.switch}>
-							<Text style={styles.switchText}>Buy</Text>
-							<Switch
-			          onValueChange={(value) => this.setState({buySell: value})}
-			          value={this.state.buySell} />
-		          <Text style={styles.switchText}>Sell</Text>
-		          <View style={styles.estimate}>
-		          	<Text style={styles.estimateText}>Estimate: ${this.state.total.toFixed(2)}</Text>
-		          </View>
-		        </View>
+						<View style={styles.rowInner}>
+							<TextInput placeholder="# of Shares" 
+													onChangeText={this.updateTotal.bind(this)}
+													style={styles.searchInput}   />
+							<View style={styles.switch}>
+								<Text style={styles.switchText}>Buy</Text>
+								<Switch
+				          onValueChange={(value) => this.setState({buySell: value})}
+				          value={this.state.buySell} />
+			          <Text style={styles.switchText}>Sell</Text>
+			        </View>
+			      </View>
 		        <View style={styles.separator}></View>
 						<TouchableHighlight 
 												onPress={this.submit.bind(this) }
 												style={styles.button} >
 							<Text style={styles.buttonText}>Submit</Text>
 						</TouchableHighlight>
+						 <View style={styles.estimate}>
+							<Text style={styles.estimateText}>Quote for {this.state.stockAmount} shares: </Text>
+	          	<Text style={styles.estimateTextPrice}>${this.state.total.toFixed(2)}</Text>
+	          </View>
 			</View>
 			) : (<View></View>);
 
@@ -370,17 +294,21 @@ class MakeTrade extends Component {
 
 		return (
 			<View style={styles.container}>
-				<View>
-					<Text>Balance: {this.state.portfolio.balance}</Text>
-					<Text>PortfolioValue: {this.state.portfolio.portfolioValue}</Text>
-					<Text>League Name: {this.state.portfolio.leaguename}</Text>
-					<Text>username: {this.state.portfolio.username}</Text>
+				<View style={styles.table}>
+					<View style={styles.tableRow}>
+						<Text style={styles.tableHeader}>Balance</Text>
+						<Text style={styles.tableHeader}>PortfolioValue</Text>
+					</View>
+					<View style={styles.tableRow}>
+						<Text style={styles.tableData}>${this.state.portfolio.balance}</Text>
+						<Text style={styles.tableData}>${this.state.portfolio.portfolioValue}</Text>
+					</View>
 				</View>
 				<View>
 					<View>
 						<Text style={styles.headerText}>Make a Trade</Text>
 					</View>
-					<View>
+					<View style={styles.row}>
 						<TextInput placeholder="Search for a stock" 
 												value={this.state.searchInput}
 												onChange={this.SearchTextChange.bind(this)}
@@ -390,15 +318,132 @@ class MakeTrade extends Component {
 												style={styles.button} >
 							<Text style={styles.buttonText}>Get Stock</Text>
 						</TouchableHighlight>
-						
-						{spinner}
-						{showTrade}
-
 					</View>
+					{spinner}
+					{showTrade}
 				</View>
 			</View>
 		)
 	}
 }
 
+var styles = StyleSheet.create({
+	description: {
+		fontSize: 18,
+		textAlign: 'center',
+		color: '#656565'
+	},
+	row: {
+		flexDirection: 'row',
+		justifyContent: 'space-between',
+		alignItems: 'stretch',
+		padding: 10
+	},
+	rowInner: {
+		flexDirection: 'row',
+		justifyContent: 'space-between',
+		alignItems: 'stretch'
+	},
+	switch: {
+		flex:2,
+		flexDirection: 'row'
+	},
+	container: {
+		marginTop: 60,
+		flex: 1,
+		backgroundColor: '#F5FCFF'
+	},
+	flowRight: {
+	  flexDirection: 'row',
+	  alignItems: 'center',
+	  alignSelf: 'stretch'
+		},
+	buttonText: {
+	  fontSize: 18,
+	  lineHeight: 28,
+	  color: 'white',
+	  alignSelf: 'center'
+	},
+	button: {
+	  height: 36,
+	  flex: 1,
+	  backgroundColor: '#48BBEC',
+	  borderColor: '#48BBEC',
+	  borderWidth: 1,
+	  borderRadius: 8,
+	},
+	searchInput: {
+	  height: 36,
+	  padding: 4,
+	  marginRight: 5,
+	  flex: 3,
+	  fontSize: 18,
+	  borderWidth: 1,
+	  borderColor: '#48BBEC',
+	  borderRadius: 8,
+	  color: '#48BBEC'
+	},
+	headerText: {
+		fontSize: 23,
+		fontWeight: 'bold',
+		textAlign: 'center'
+	},
+	showTrade:{
+		padding: 10
+	},
+	switchText:{
+		marginTop: 5,
+		marginRight: 5,
+		marginLeft: 5
+	},
+	separator: {
+		borderWidth: 1,
+		marginTop: 10,
+		marginBottom: 20,
+		borderColor: '#ddd'
+	},
+	estimate:{
+		marginTop: 30
+	},
+	symbol: {
+		alignSelf: 'center',
+		fontSize: 30,
+		color: '#01579b',
+		fontWeight: 'bold' 
+	},
+	estimateText:{
+		marginTop: 5,
+		fontSize: 20,
+		textAlign: 'center',
+		color: 'green'
+	},
+	estimateTextPrice:{
+		marginTop: 5,
+		fontSize: 30,
+		textAlign: 'center',
+		fontWeight: 'bold',
+		color: 'green'
+	},
+	table:{
+		marginBottom: 10
+	},
+	tableRow:{
+		flexDirection: 'row'
+	},
+	tableHeader:{
+		backgroundColor: '#e0f2f1',
+		textAlign: 'center',
+		fontSize: 15,
+		padding: 20,
+		fontWeight: 'bold',
+		flex: 3,
+		alignSelf: 'center'
+	},
+	tableData: {
+		flex: 3,
+		padding: 10,
+		fontSize: 15,
+		textAlign: 'center'
+	}
+});
 module.exports = MakeTrade

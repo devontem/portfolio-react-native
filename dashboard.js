@@ -29,7 +29,7 @@ class Dashboard extends Component {
         style={styles.wrapper}
         barTintColor="#48BBEC"
         initialRoute={{
-          title: 'My Leagues',
+          title: this.props.info.username+"'s Leagues",
           component: DashboardInner,
           passProps: {info: this.props.info}
         }} />
@@ -51,6 +51,7 @@ class DashboardInner extends Component {
 
   componentDidMount(){
     this.fetchLeagues();
+    console.log('userInfo', this.props.info.username)
   }
 
 
@@ -81,6 +82,25 @@ class DashboardInner extends Component {
       .done();
   }
 
+  getUser() {
+    var url = 'https://portfolioio.herokuapp.com/api/users/getuser'
+    fetch(url, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'x-access-token' : this.props.info.token
+      },
+      body: JSON.stringify({
+        userId: this.props.info.userId
+      })
+    })
+    .then((response) => response.json())
+    .then((data)=>{
+      console.log('USER INFO --->', data)
+    })
+  }
+
   pressRow(rowData){
 
     this.props.navigator.push({
@@ -95,10 +115,19 @@ class DashboardInner extends Component {
       <TouchableHighlight
         onPress={()=> this.pressRow(rowData)}
         underlayColor='#ddd'
-        style={styles.cross}
       >
       <View style={styles.league}>
-        <Text style={styles.leaguetext} >{rowData.leaguename}</Text>
+        <View >
+          <Text style={styles.leaguetext}>{rowData.leaguename}</Text>
+          <View>
+            <Text>Balance: ${rowData.balance} </Text>
+            <Text>Portfolio Value: ${rowData.portfolioValue} </Text>
+            <Text>Num of Trades: {rowData.numOfTrades} </Text>
+          </View>
+        </View>
+        <View style={styles.imageWrapper}>
+          <Image style={styles.arrow} source={require('./arrow.png')} />
+        </View>
       </View>
       </TouchableHighlight>
     );
@@ -120,31 +149,42 @@ class DashboardInner extends Component {
 
 let styles = StyleSheet.create({
   container: {
-    marginTop: 50,
     flex: 1,
     justifyContent: 'flex-start',
-    alignItems: 'center',
     backgroundColor: '#F5FCFF'
   },
+  row: {
+    flexDirection: 'row'
+  },
   leaguePageHeader: {
-    color: 'green',
-    fontSize: 25
+    textAlign: 'left',
+    fontSize: 40
   },
   wrapper: {
     flex: 1
   },
   league: {
     flex: 1,
+    backgroundColor: 'white',
     flexDirection: 'row',
+    justifyContent: 'space-between',
     padding: 20,
-    alignItems: 'center',
-    borderColor: '#D7D7D7',
-    borderBottomWidth: 1,
+    paddingBottom: 10,
+    borderColor: '#bdbdbd',
+    borderBottomWidth: 1
   },
   leaguetext: {
     flex:1,
-    fontSize:15
+    fontWeight: 'bold',
+    fontSize: 20
   },
+  imageWrapper:{
+
+  },
+  arrow: {
+    width: 50,
+    height: 50
+  }
 });
 
 module.exports = Dashboard;
