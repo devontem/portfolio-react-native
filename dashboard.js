@@ -56,7 +56,7 @@ class DashboardInner extends Component {
     this.fetchLeagues();
   }
 
-  // add in parameter for userID to pass into body:userID as a url param
+
   fetchLeagues(){
 
     var url = 'https://portfolioio.herokuapp.com/api/leagues/userleague';
@@ -66,6 +66,7 @@ class DashboardInner extends Component {
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
+        'x-access-token' : this.props.info.token
       },
       body: JSON.stringify({
         userId: this.props.info.userId
