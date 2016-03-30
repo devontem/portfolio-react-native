@@ -12,51 +12,6 @@ var {
 	ActivityIndicatorIOS
 } = React;
 
-var styles = StyleSheet.create({
-	container: {
-		paddingTop: 60,
-		paddingRight: 10,
-		paddingLeft: 10
-	},
-	row: {
-		borderBottomColor: '#ddd',
-		borderBottomWidth: 1,
-		flexDirection: 'row',
-		backgroundColor: 'white'
-	},
-	rowHeader: {
-		borderBottomColor: '#ddd',
-		borderBottomWidth: 1,
-		flexDirection: 'row',
-		backgroundColor: '#ddd'
-	},
-	table: {
-		borderWidth: 2,
-		borderColor: '#ddd',
-		height: 600
-	},
-	rowText: {
-		flex: 1,
-		textAlign: 'center'
-	},
-	rowTextHeader: {
-		flex: 1,
-		textAlign: 'center',
-		fontWeight: 'bold',
-		fontSize: 10,
-		padding: 5
-	},
-	header: {
-		backgroundColor: '#252C41'
-	},
-	headerText: {
-		fontSize: 20,
-		padding: 10,
-		textAlign: 'center',
-		color: 'white',
-		fontWeight: 'bold'
-	}
-});
 
 class UserStocks extends Component {
 
@@ -126,12 +81,12 @@ class UserStocks extends Component {
 
 	renderRow(stockData) {
 		return (
-			<View style={styles.row}>
-				<Text style={styles.rowText}>{ stockData.symbol }</Text>
-				<Text style={styles.rowText}>{ stockData.company }</Text>
-				<Text style={styles.rowText}>{ stockData.price }</Text>
-				<Text style={styles.rowText}>{ stockData.marketPrice }</Text>
-				<Text style={styles.rowText}>{ stockData.return }%</Text>
+			<View style={styles.tableRow}>
+				<Text style={styles.tableData}>{ stockData.symbol.toUpperCase() }</Text>
+				<Text style={styles.tableData}>{ stockData.shares }</Text>
+				<Text style={styles.tableData}>{ stockData.price.toFixed(2) }</Text>
+				<Text style={styles.tableData}>{ stockData.marketPrice.toFixed(2) }</Text>
+				<Text style={styles.tableData}>{ stockData.return.toFixed(2) }%</Text>
 			</View>
 		);
 	}
@@ -146,18 +101,18 @@ class UserStocks extends Component {
 
 		return (
 			<View style={styles.container}>
-				<View style={styles.header}>
-					<Text style={styles.headerText}>Stocks</Text>
-				</View>
 				<View style={styles.table}>
-					<View style={styles.rowHeader}>
-						<Text style={styles.rowTextHeader}>SYMBOL</Text>
-						<Text style={styles.rowTextHeader}>CORP</Text>
-						<Text style={styles.rowTextHeader}>PRICE</Text>
-						<Text style={styles.rowTextHeader}>MARKET PRICE</Text>
-						<Text style={styles.rowTextHeader}>RETURN</Text>
+					<View style={styles.tableRow}>
+						<Text style={styles.tableHeader}>Stock</Text>
+						<Text style={styles.tableHeader}>Shares</Text>
+						<Text style={styles.tableHeader}>$ Paid</Text>
+						<Text style={styles.tableHeader}>Market $</Text>
+						<Text style={styles.tableHeader}>Return</Text>
 					</View>
 					<ListView dataSource={this.state.stocks}
+									initialListSize={15}
+									style={styles.listview}
+									automaticallyAdjustContentInsets={false}
 									renderRow={this.renderRow.bind(this)} />
 				</View>
 				{ spinner }
@@ -165,5 +120,46 @@ class UserStocks extends Component {
 		)
 	}
 }
+
+var styles = StyleSheet.create({
+	listview:{
+		margin: 0
+	},
+	container: {
+		marginTop: 65,
+		padding: 0,
+		flex: 1,
+		backgroundColor: '#F5FCFF'
+	},
+	table:{
+		marginBottom: 10
+	},
+	tableRow:{
+		flexDirection: 'row',
+		borderColor: '#bdbdbd',
+    borderBottomWidth: 1,
+	},
+	tableHeader:{
+		backgroundColor: '#e0f2f1',
+		textAlign: 'center',
+		fontSize: 12,
+		paddingTop: 20,
+		paddingBottom: 20,
+		fontWeight: 'bold',
+		flex: 3,
+		alignSelf: 'center'
+	},
+	tableDataWrapper: {
+		borderColor: '#bdbdbd',
+    borderBottomWidth: 1,
+	},
+	tableData: {
+		flex: 3,
+		paddingTop: 20,
+		paddingBottom: 20,
+		fontSize: 15,
+		textAlign: 'center'
+	}
+});
 
 module.exports = UserStocks;

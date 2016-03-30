@@ -9,8 +9,7 @@ import React, {
   ListView,
   View,
   ActivityIndicatorIOS,
-  TouchableHighlight,
-
+  TouchableHighlight
 } from 'react-native';
 
 // var League = require('./league');
@@ -101,7 +100,17 @@ class TradeInner extends Component {
         underlayColor='#ddd'
       >
       <View style={styles.league}>
-        <Text style={styles.leaguetext}>{rowData.leaguename}</Text>
+        <View >
+          <Text style={styles.leaguetext}>{rowData.leaguename}</Text>
+          <View>
+            <Text>Balance: {rowData.balance} </Text>
+            <Text>Portfolio Value: {rowData.portfolioValue} </Text>
+            <Text>Num of Trades: {rowData.numOfTrades} </Text>
+          </View>
+        </View>
+        <View style={styles.imageWrapper}>
+          <Image style={styles.arrow} source={require('./arrow.png')} />
+        </View>
       </View>
       </TouchableHighlight>
     );
@@ -112,7 +121,6 @@ class TradeInner extends Component {
 
     return (
       <View style={styles.container}>
-        <Text style={styles.leaguePageHeader}>My Leagues</Text>
         <ListView
           dataSource={this.state.dataSource}
           renderRow={this.renderRow.bind(this)}
@@ -124,31 +132,42 @@ class TradeInner extends Component {
 
 let styles = StyleSheet.create({
   container: {
-    marginTop: 50,
     flex: 1,
     justifyContent: 'flex-start',
-    alignItems: 'center',
     backgroundColor: '#F5FCFF'
   },
+  row: {
+    flexDirection: 'row'
+  },
   leaguePageHeader: {
-    top:20,
-    fontSize: 20
+    textAlign: 'left',
+    fontSize: 40
   },
   wrapper: {
     flex: 1
   },
   league: {
     flex: 1,
+    backgroundColor: 'white',
     flexDirection: 'row',
+    justifyContent: 'space-between',
     padding: 20,
-    alignItems: 'center',
-    borderColor: '#D7D7D7',
+    paddingBottom: 10,
+    borderColor: '#bdbdbd',
     borderBottomWidth: 1
   },
   leaguetext: {
     flex:1,
-    fontSize:15
+    fontWeight: 'bold',
+    fontSize: 20
   },
+  imageWrapper:{
+
+  },
+  arrow: {
+    width: 50,
+    height: 50
+  }
 });
 
 module.exports = Trade;

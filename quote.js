@@ -204,8 +204,6 @@ class QuoteInner extends Component {
 
     return (
       <View style={styles.container}>
-        <Text style={styles.description}>Get Quote</Text>
-
         <View style={styles.flowRight}>
           <TextInput
             style={styles.searchInput}
