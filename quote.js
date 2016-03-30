@@ -166,6 +166,8 @@ class Quote extends Component {
             style={styles.searchInput}
             value={this.state.searchString}
             autoCapitalize={'none'}
+            autoCorrect={false}
+            maxLength={5}
             onChange={this.onSearchTextChanged.bind(this)}
             placeholder='enter symbol'/>
           <TouchableHighlight
