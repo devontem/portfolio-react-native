@@ -90,7 +90,7 @@ class TradeInner extends Component {
     this.props.navigator.push({
       title: rowData.leaguename,
       component: MakeTrade,
-      passProps: {leagueId: rowData.leagueId, userId: this.props.info.userId, username: this.props.info.username}
+      passProps: {leagueId: rowData.leagueId, token: this.props.info.token, userId: this.props.info.userId, username: this.props.info.username}
     });
   }
 

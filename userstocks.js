@@ -88,7 +88,10 @@ class UserStocks extends Component {
 
 		fetch('https://portfolioio.herokuapp.com/api/portfolios/stocks/'+leagueId+'/'+userId, {
 			method: 'PUT'
-		})
+		}, {
+        headers: {
+          'x-access-token' : this.props.token
+        }})
 		.then((response) => response.json())
 		.then((data) => {
 			
@@ -103,7 +106,10 @@ class UserStocks extends Component {
 	// Retrives the users purchased stocks
 	getUserStocks(leagueId, userId) {
 
-		fetch('https://portfolioio.herokuapp.com/api/portfolios/stocks/'+leagueId+'/'+userId)
+		fetch('https://portfolioio.herokuapp.com/api/portfolios/stocks/'+leagueId+'/'+userId, {
+              headers: {
+                'x-access-token' : this.props.token
+              }})
 		.then((response) => response.json())
 		.then((data) => {
 			// Setting state (thus re-rendering template)
