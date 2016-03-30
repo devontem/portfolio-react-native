@@ -29,13 +29,47 @@ class Watchlist extends Component {
 		};
 	}
 	renderRow(rowData){
-		return <Text style={{
+		return (
+      <View style={{
+        flex: 1,
+        flexDirection: 'row',
+        padding: 20,
+        alignItems: 'center',
+        borderColor: '#D7D7D7',
+        borderBottomWidth: 1,
+
+
+      }}>
+      <Text style={{
 				color: '#333',
 				backgroundColor:'#fff',
 				alignSelf: 'center'
 			}}>
-			{rowData}
+			{rowData[0]} 
 			</Text>
+      <Text style={{
+        color: '#333',
+        backgroundColor:'#fff',
+        left: 25
+      }}>
+      {rowData[1]} 
+      </Text>
+      <Text style={{
+        color: '#00cc00',
+        backgroundColor:'#fff',
+        left: 50
+      }}>
+      {rowData[2]} 
+      </Text>
+      <Text style={{
+        color: '#ff3300',
+        backgroundColor:'#fff',
+        left: 60
+      }}>
+      {rowData[3]}
+      </Text>
+      </View>
+      )
 		}
 	
 
@@ -44,7 +78,8 @@ class Watchlist extends Component {
           <View style ={{
             flex:1,
             justifyContent: 'flex-start',
-            paddingTop: 100
+            paddingTop: 75,
+            paddingBottom: 100
 
           }}>
           <TouchableHighlight style={styles.button}> 
@@ -64,9 +99,9 @@ class Watchlist extends Component {
 	}
 
 	_onPressButton(){
-		console.log('hi')
-		//fetch leaderboard
-		fetch('https://portfolioio.herokuapp.com/api/watchlist/12'
+		console.log(this.props.info,'hi')
+		
+		fetch('https://portfolioio.herokuapp.com/api/watchlist/' + this.props.info.userId
 			, {
         headers: {
           'Accept': 'application/json',
@@ -144,7 +179,8 @@ class Watchlist extends Component {
 
             
             this.setState({dataSource: this.state.dataSource.cloneWithRows(finalfinal)})
-        	console.log(finalfinal,'ressppp')
+
+        	console.log(this.state.dataSource,'ressppp')
         })
 
         
@@ -186,6 +222,13 @@ const styles = StyleSheet.create({
     color: '#FFF',
     alignSelf: 'center'
   }
+  // positive: {
+  //   color: green
+  // },
+  // negative: {
+  //   color: red
+  // }
+
 });
 
 module.exports = Watchlist;
