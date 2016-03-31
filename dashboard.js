@@ -128,7 +128,7 @@ class DashboardInner extends Component {
         <View style={styles.imageWrapper}>
           <Image style={styles.arrow} source={require('./arrow.png')} />
         </View>
-      </View>
+      </View> 
       </TouchableHighlight>
     );
 
